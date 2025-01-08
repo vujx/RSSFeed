@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.rssfeed"
+    namespace = "com.rssfeed"
     compileSdk = 35
 
     defaultConfig {

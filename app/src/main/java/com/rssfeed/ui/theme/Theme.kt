@@ -1,6 +1,5 @@
-package com.example.rssfeed.ui.theme
+package com.rssfeed.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

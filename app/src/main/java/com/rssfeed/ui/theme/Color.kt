@@ -1,4 +1,4 @@
-package com.example.rssfeed.ui.theme
+package com.rssfeed.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

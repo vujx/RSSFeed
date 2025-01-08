@@ -1,4 +1,4 @@
-package com.example.rssfeed
+package com.rssfeed
 
 import org.junit.Test
 
