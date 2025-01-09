@@ -35,6 +35,7 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 # Plugins defined by this project
 rssfeed-application = { id = "rssfeed.application", version = "unspecified" }
 rssfeed-compose = { id = "rssfeed.compose", version = "unspecified" }
+rssfeed-library = { id = "rssfeed.library", version = "unspecified" }
 
 [bundles]
 compose = [

@@ -41,18 +41,4 @@ class ApplicationConventionPlugin : Plugin<Project> {
             }
         }
     }
-
-    private fun configureBuildTypes(
-        applicationExtension: ApplicationExtension,
-    ) = applicationExtension.apply {
-        buildTypes {
-            release {
-                isMinifyEnabled = false
-                proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
-                )
-            }
-        }
-    }
 }
