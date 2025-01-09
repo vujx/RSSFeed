@@ -18,4 +18,4 @@ dependencyResolutionManagement {
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "RSSFeed"
-include("app", "convention", "data")
+include("app", "convention", "data", "domain")
