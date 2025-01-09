@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -8,7 +9,7 @@ class LibraryConventionPlugin : Plugin<Project> {
         with(project) {
             applyPlugins()
 
-            extensions.configure<com.android.build.gradle.LibraryExtension> {
+            extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
                 configureBuildTypes(this)
             }

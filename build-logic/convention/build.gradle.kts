@@ -13,7 +13,7 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        register("androidApplicationPlugin") {
+        register("applicationConventionPlugin") {
             id = "rssfeed.application"
             implementationClass = "ApplicationConventionPlugin"
         }
