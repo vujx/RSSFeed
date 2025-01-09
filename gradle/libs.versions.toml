@@ -6,6 +6,8 @@ composeBom = "2024.12.01"
 composeActivity = "1.9.3"
 detekt = "1.23.7"
 detektCompose ="0.0.26"
+koin = "3.5.1"
+koinCompose = "1.1.0"
 kotlin = "1.9.22"
 ktlint = "0.50.0"
 ktlintGradlePlugin = "12.1.1"
@@ -25,6 +27,12 @@ compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+
+koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
+koin-android = { group = "io.insert-koin", name = "koin-android" }
+koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose" }
+koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koinCompose" }
+koin-core = { group = "io.insert-koin", name = "koin-core" }
 
 # Dependencies included in build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -56,4 +64,10 @@ compose = [
     "compose-ui",
     "compose-tooling",
     "compose-tooling-preview",
+]
+koin = [
+    "koin-core",
+    "koin-android",
+    "koin-androidx-compose",
+    "koin-compose",
 ]

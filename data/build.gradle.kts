@@ -7,4 +7,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.domain)
+
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
 }
