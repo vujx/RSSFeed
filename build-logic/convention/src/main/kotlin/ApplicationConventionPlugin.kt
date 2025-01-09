@@ -21,6 +21,7 @@ class ApplicationConventionPlugin : Plugin<Project> {
         with(pluginManager) {
             apply(libs.plugins.android.application)
             apply(libs.plugins.kotlin.android)
+            apply(libs.plugins.rssfeed.quality)
         }
     }
 

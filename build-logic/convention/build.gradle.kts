@@ -7,6 +7,7 @@ group = "com.rssfeed.buildlogic"
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.ktlint.gradlePlugin)
 
     compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }
@@ -24,6 +25,10 @@ gradlePlugin {
         register("libraryConventionPlugin") {
             id = "rssfeed.library"
             implementationClass = "LibraryConventionPlugin"
+        }
+        register("qualityConventionPlugin") {
+            id = "rssfeed.quality"
+            implementationClass = "QualityConventionPlugin"
         }
     }
 }
