@@ -1,0 +1,36 @@
+name: Tests
+
+on:
+  push:
+    branches:
+    - main
+    - develop
+  pull_request:
+    branches:
+    - main
+    - develop
+
+jobs:
+  static_analysis:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Prepare environment
+        run: |
+          export GRADLE_USER_HOME=`pwd`/.gradle
+          chmod +x ./gradlew
+      - name: Static Analysis
+        run: |
+          ./gradlew ktlintCheck
+          ./gradlew detekt
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Prepare environment
+        run: |
+          export GRADLE_USER_HOME=`pwd`/.gradle  # Set Gradle's user home
+          chmod +x ./gradlew  # Ensure gradlew is executable
+      - name: Assemble
+        run: |
+          ./gradlew assemble --no-daemon
