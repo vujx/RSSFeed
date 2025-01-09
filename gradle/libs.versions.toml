@@ -11,6 +11,7 @@ koinCompose = "1.1.0"
 kotlin = "1.9.22"
 ktlint = "0.50.0"
 ktlintGradlePlugin = "12.1.1"
+ktor = "2.3.6"
 
 minSdk = "21"
 targetSdk = "34"
@@ -34,6 +35,13 @@ koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compos
 koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koinCompose" }
 koin-core = { group = "io.insert-koin", name = "koin-core" }
 
+ktor-bom = { group = "io.ktor", name = "ktor-bom", version.ref = "ktor" }
+ktor-android = { group = "io.ktor", name = "ktor-client-android" }
+ktor-okhttp = { group = "io.ktor", name = "ktor-client-okhttp" }
+ktor-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation" }
+ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-xml" }
+ktor-logging = { group = "io.ktor", name = "ktor-client-logging-jvm" }
+
 # Dependencies included in build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
@@ -49,6 +57,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradlePlugin" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 # Plugins defined by this project
 rssfeed-application = { id = "rssfeed.application", version = "unspecified" }
@@ -70,4 +79,11 @@ koin = [
     "koin-android",
     "koin-androidx-compose",
     "koin-compose",
+]
+ktor = [
+    "ktor-android",
+    "ktor-okhttp",
+    "ktor-logging",
+    "ktor-serialization",
+    "ktor-content-negotiation",
 ]
