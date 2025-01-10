@@ -1,4 +1,4 @@
-import com.android.build.api.dsl.LibraryExtension
+import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -11,6 +11,7 @@ class LibraryConventionPlugin : Plugin<Project> {
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
+                configureAndroid(this)
                 configureBuildTypes(this)
             }
         }
@@ -20,6 +21,14 @@ class LibraryConventionPlugin : Plugin<Project> {
         with(pluginManager) {
             apply(libs.plugins.android.library)
             apply(libs.plugins.kotlin.android)
+        }
+    }
+
+    private fun configureAndroid(
+        libraryExtension: LibraryExtension,
+    ) = libraryExtension.apply {
+        buildFeatures {
+            buildConfig = true
         }
     }
 }
