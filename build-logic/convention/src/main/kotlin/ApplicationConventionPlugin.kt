@@ -28,6 +28,10 @@ class ApplicationConventionPlugin : Plugin<Project> {
     private fun Project.configureAndroid(
         applicationExtension: ApplicationExtension,
     ) = applicationExtension.apply {
+        buildFeatures {
+            buildConfig = true
+        }
+
         defaultConfig {
             applicationId = "com.rssfeed"
             targetSdk = libs.versions.targetSdk.get().toInt()

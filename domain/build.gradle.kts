@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rssfeed.data"
+    namespace = "com.rssfeed.domain"
 }
 
 dependencies {
