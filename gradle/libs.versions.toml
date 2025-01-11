@@ -9,6 +9,7 @@ detektCompose ="0.0.26"
 koin = "3.5.1"
 koinCompose = "1.1.0"
 kotlin = "1.9.22"
+kotlinxCoroutines = "1.8.0"
 ktlint = "0.50.0"
 ktlintGradlePlugin = "12.1.1"
 ktor = "2.3.6"
@@ -35,6 +36,8 @@ koin-android = { group = "io.insert-koin", name = "koin-android" }
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose" }
 koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koinCompose" }
 koin-core = { group = "io.insert-koin", name = "koin-core" }
+
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 
 ktor-bom = { group = "io.ktor", name = "ktor-bom", version.ref = "ktor" }
 ktor-android = { group = "io.ktor", name = "ktor-client-android" }
