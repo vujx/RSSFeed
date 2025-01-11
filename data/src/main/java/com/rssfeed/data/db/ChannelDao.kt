@@ -11,5 +11,5 @@ interface ChannelDao {
 
   suspend fun deleteChannel(link: String)
 
-  suspend fun observeFavoriteChannels(): Flow<List<ChannelEntity>>
+  fun observeFavoriteChannels(): Flow<List<ChannelEntity>>
 }
