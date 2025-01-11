@@ -12,6 +12,7 @@ kotlin = "1.9.22"
 ktlint = "0.50.0"
 ktlintGradlePlugin = "12.1.1"
 ktor = "2.3.6"
+sqldelight = "2.0.1"
 
 minSdk = "21"
 targetSdk = "34"
@@ -42,6 +43,9 @@ ktor-content-negotiation = { group = "io.ktor", name = "ktor-client-content-nego
 ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-xml" }
 ktor-logging = { group = "io.ktor", name = "ktor-client-logging-jvm" }
 
+sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
+sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
+
 # Dependencies included in build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 detekt-gradlePlugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
@@ -49,6 +53,7 @@ detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-form
 detekt-formatting-compose = { group = "com.twitter.compose.rules", name = "detekt", version.ref = "detektCompose" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ktlint-gradlePlugin = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktlintGradlePlugin" }
+sqldelight-gradlePlugin = { group = "app.cash.sqldelight", name = "gradle-plugin", version.ref = "sqldelight" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -58,11 +63,13 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradlePlugin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 
 # Plugins defined by this project
 rssfeed-application = { id = "rssfeed.application", version = "unspecified" }
 rssfeed-compose = { id = "rssfeed.compose", version = "unspecified" }
 rssfeed-library = { id = "rssfeed.library", version = "unspecified" }
+rssfeed-sqldelight = { id = "rssfeed.sqldelight", version = "unspecified" }
 rssfeed-quality = { id = "rssfeed.quality", version = "unspecified" }
 
 [bundles]

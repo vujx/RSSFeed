@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.rssfeed.library)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.rssfeed.sqldelight)
 }
 
 android {

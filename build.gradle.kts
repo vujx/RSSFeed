@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.ktlint) apply false
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.kotlinx.serialization) apply false
+    alias(libs.plugins.sqldelight) apply false
 }
 
 task<Delete>("clean") {

@@ -9,6 +9,7 @@ dependencies {
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ktlint.gradlePlugin)
     compileOnly(libs.detekt.gradlePlugin)
+    compileOnly(libs.sqldelight.gradlePlugin)
 
     compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }
@@ -26,6 +27,10 @@ gradlePlugin {
         register("libraryConventionPlugin") {
             id = "rssfeed.library"
             implementationClass = "LibraryConventionPlugin"
+        }
+        register("sqlDelightConventionPlugin") {
+            id = "rssfeed.sqldelight"
+            implementationClass = "SqlDelightConventionPlugin"
         }
         register("qualityConventionPlugin") {
             id = "rssfeed.quality"
