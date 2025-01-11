@@ -34,6 +34,6 @@ class ChannelDaoImpl(
 
   override suspend fun deleteChannel(link: String) = channelQueries.deleteChannel(link)
 
-  override suspend fun observeFavoriteChannels() =
+  override fun observeFavoriteChannels() =
     channelQueries.getFavoriteChannels().asFlow().mapToList(dispatchers.io)
 }

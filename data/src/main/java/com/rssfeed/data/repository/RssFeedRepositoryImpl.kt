@@ -47,7 +47,7 @@ class RssFeedRepositoryImpl(
     }
   }
 
-  override suspend fun observeFavoriteChannels(): Flow<List<ChannelItem>> =
+  override fun observeFavoriteChannels(): Flow<List<ChannelItem>> =
     channelDao.observeFavoriteChannels().map { it.toChannelItems() }
 
   override fun observeArticlesByChannelLink(channelLink: String): Flow<List<ArticleItem>> =
