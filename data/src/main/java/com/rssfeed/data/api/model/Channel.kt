@@ -1,5 +1,6 @@
 package com.rssfeed.data.api.model
 
+import com.rssfeed.data.schema.ChannelEntity
 import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlElement
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
@@ -19,7 +20,21 @@ data class Channel(
   val lastBuildDate: String?,
   @XmlElement(true)
   val articles: List<Article>,
-)
+) {
+
+  fun toChannelEntity(): ChannelEntity? {
+    if (link.isNullOrBlank()) return null
+
+    return ChannelEntity(
+      link = link,
+      title = title.orEmpty(),
+      description = description.orEmpty(),
+      url = image?.url.orEmpty(),
+      lastBuildDate = lastBuildDate.orEmpty(),
+      isFavorite = 0,
+    )
+  }
+}
 
 @Serializable
 @XmlSerialName("image")
