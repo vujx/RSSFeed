@@ -1,0 +1,15 @@
+CREATE TABLE articleEntity(
+    link TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    url TEXT NOT NULL,
+    pubDate TEXT NOT NULL,
+    channelLink TEXT NOT NULL,
+    FOREIGN KEY (channelLink) REFERENCES channelEntity(link) ON DELETE CASCADE
+);
+
+getArticlesByChannelLink:
+SELECT * FROM articleEntity WHERE channelLink = ?;
+
+insertArticle:
+INSERT OR REPLACE INTO articleEntity VALUES (?, ?, ?, ?, ?, ?);

@@ -1,0 +1,20 @@
+CREATE TABLE channelEntity(
+    link TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    url TEXT NOT NULL,
+    lastBuildDate TEXT NOT NULL,
+    isFavorite INTEGER NOT NULL
+);
+
+getChannels:
+SELECT * FROM channelEntity;
+
+insertChannel:
+INSERT OR REPLACE INTO channelEntity VALUES (?, ?, ?, ?, ?, ?);
+
+deleteChannel:
+DELETE FROM channelEntity WHERE link = ?;
+
+getFavoriteChannels:
+SELECT * FROM channelEntity WHERE isFavorite = 0;
