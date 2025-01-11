@@ -10,18 +10,18 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 
 fun createHttpClient() = HttpClient(OkHttp) {
-    install(HttpTimeout) {
-        requestTimeoutMillis = NETWORK_TIMEOUT_MILLIS
-        connectTimeoutMillis = NETWORK_TIMEOUT_MILLIS
-        socketTimeoutMillis = NETWORK_TIMEOUT_MILLIS
-    }
+  install(HttpTimeout) {
+    requestTimeoutMillis = NETWORK_TIMEOUT_MILLIS
+    connectTimeoutMillis = NETWORK_TIMEOUT_MILLIS
+    socketTimeoutMillis = NETWORK_TIMEOUT_MILLIS
+  }
 
-    if (BuildConfig.DEBUG) {
-        install(Logging) {
-            logger = Logger.SIMPLE
-            level = LogLevel.ALL
-        }
+  if (BuildConfig.DEBUG) {
+    install(Logging) {
+      logger = Logger.SIMPLE
+      level = LogLevel.ALL
     }
+  }
 }
 
 private const val NETWORK_TIMEOUT_MILLIS = 10_000L

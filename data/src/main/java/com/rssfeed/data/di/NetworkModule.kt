@@ -10,12 +10,12 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val networkModule = module {
-    singleOf(::createHttpClient)
-    singleOf(::ApiServiceImpl) bind ApiService::class
-    factory {
-        XML {
-            unknownChildHandler = XmlConfig.IGNORING_UNKNOWN_CHILD_HANDLER
-            repairNamespaces = true
-        }
+  singleOf(::createHttpClient)
+  singleOf(::ApiServiceImpl) bind ApiService::class
+  factory {
+    XML {
+      unknownChildHandler = XmlConfig.IGNORING_UNKNOWN_CHILD_HANDLER
+      repairNamespaces = true
     }
+  }
 }

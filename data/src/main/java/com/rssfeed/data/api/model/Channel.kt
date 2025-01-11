@@ -7,23 +7,23 @@ import nl.adaptivity.xmlutil.serialization.XmlSerialName
 @Serializable
 @XmlSerialName("channel")
 data class Channel(
-    @XmlElement(true)
-    val title: String? = null,
-    @XmlElement(true)
-    val description: String? = null,
-    @XmlElement(true)
-    val link: String? = null,
-    @XmlElement(true)
-    val image: Image? = null,
-    @XmlElement(true)
-    val lastBuildDate: String? = null,
-    @XmlElement(true)
-    val articles: List<Article> = emptyList(),
+  @XmlElement(true)
+  val title: String?,
+  @XmlElement(true)
+  val description: String?,
+  @XmlElement(true)
+  val link: String?,
+  @XmlElement(true)
+  val image: Image?,
+  @XmlElement(true)
+  val lastBuildDate: String?,
+  @XmlElement(true)
+  val articles: List<Article>,
 )
 
 @Serializable
 @XmlSerialName("image")
 data class Image(
-    @XmlElement(true)
-    val url: String,
+  @XmlElement(true)
+  val url: String?,
 )

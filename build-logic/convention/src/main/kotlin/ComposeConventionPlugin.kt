@@ -6,33 +6,33 @@ import org.gradle.kotlin.dsl.dependencies
 
 class ComposeConventionPlugin : Plugin<Project> {
 
-    override fun apply(project: Project) {
-        with(project) {
-            pluginManager.apply(libs.plugins.android.application)
+  override fun apply(project: Project) {
+    with(project) {
+      pluginManager.apply(libs.plugins.android.application)
 
-            extensions.configure<ApplicationExtension> {
-                configureAndroidCompose(this)
-            }
-        }
+      extensions.configure<ApplicationExtension> {
+        configureAndroidCompose(this)
+      }
     }
+  }
 
-    private fun Project.configureAndroidCompose(
-        applicationExtension: ApplicationExtension,
-    ) {
-        applicationExtension.apply {
-            buildFeatures {
-                compose = true
-            }
+  private fun Project.configureAndroidCompose(
+    applicationExtension: ApplicationExtension,
+  ) {
+    applicationExtension.apply {
+      buildFeatures {
+        compose = true
+      }
 
-            composeOptions {
-                kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-            }
+      composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
+      }
 
-            dependencies {
-                val bom = libs.compose.bom
-                add("implementation", platform(bom))
-                add("implementation", libs.bundles.compose)
-            }
-        }
+      dependencies {
+        val bom = libs.compose.bom
+        add("implementation", platform(bom))
+        add("implementation", libs.bundles.compose)
+      }
     }
+  }
 }

@@ -8,5 +8,5 @@ import org.gradle.plugin.use.PluginDependency
 internal val Project.libs get() = the<LibrariesForLibs>()
 
 internal fun PluginManager.apply(plugin: Provider<PluginDependency>) {
-    apply(plugin.get().pluginId)
+  apply(plugin.get().pluginId)
 }

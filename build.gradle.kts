@@ -7,3 +7,7 @@ plugins {
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.kotlinx.serialization) apply false
 }
+
+task<Delete>("clean") {
+    delete(rootProject.layout.buildDirectory)
+}
