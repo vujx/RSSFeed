@@ -6,7 +6,7 @@ import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 @Serializable
 @XmlSerialName("rss")
-data class Feed(
+data class RssFeed(
   @XmlElement(true)
   val channel: Channel? = null,
 )
