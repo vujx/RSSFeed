@@ -5,24 +5,24 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 internal fun Project.configureKotlinAndroid(
-    commonExtension: CommonExtension<*, *, *, *, *, *>,
+  commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
-    commonExtension.apply {
-        compileSdk = libs.versions.compileSdk.get().toInt()
+  commonExtension.apply {
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
-        defaultConfig {
-            minSdk = libs.versions.minSdk.get().toInt()
-        }
-
-        compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_17
-            targetCompatibility = JavaVersion.VERSION_17
-        }
+    defaultConfig {
+      minSdk = libs.versions.minSdk.get().toInt()
     }
 
-    tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_17.toString()
-        }
+    compileOptions {
+      sourceCompatibility = JavaVersion.VERSION_17
+      targetCompatibility = JavaVersion.VERSION_17
     }
+  }
+
+  tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions {
+      jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+  }
 }

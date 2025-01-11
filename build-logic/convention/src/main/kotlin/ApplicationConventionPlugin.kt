@@ -5,45 +5,45 @@ import org.gradle.kotlin.dsl.configure
 
 class ApplicationConventionPlugin : Plugin<Project> {
 
-    override fun apply(project: Project) {
-        with(project) {
-            applyPlugins()
+  override fun apply(project: Project) {
+    with(project) {
+      applyPlugins()
 
-            extensions.configure<ApplicationExtension> {
-                configureAndroid(this)
-                configureKotlinAndroid(this)
-                configureBuildTypes(this)
-            }
-        }
+      extensions.configure<ApplicationExtension> {
+        configureAndroid(this)
+        configureKotlinAndroid(this)
+        configureBuildTypes(this)
+      }
+    }
+  }
+
+  private fun Project.applyPlugins() {
+    with(pluginManager) {
+      apply(libs.plugins.android.application)
+      apply(libs.plugins.kotlin.android)
+      apply(libs.plugins.rssfeed.quality)
+    }
+  }
+
+  private fun Project.configureAndroid(
+    applicationExtension: ApplicationExtension,
+  ) = applicationExtension.apply {
+    buildFeatures {
+      buildConfig = true
     }
 
-    private fun Project.applyPlugins() {
-        with(pluginManager) {
-            apply(libs.plugins.android.application)
-            apply(libs.plugins.kotlin.android)
-            apply(libs.plugins.rssfeed.quality)
-        }
+    defaultConfig {
+      applicationId = "com.rssfeed"
+      targetSdk = libs.versions.targetSdk.get().toInt()
+
+      versionCode = 1
+      versionName = "1.0"
     }
 
-    private fun Project.configureAndroid(
-        applicationExtension: ApplicationExtension,
-    ) = applicationExtension.apply {
-        buildFeatures {
-            buildConfig = true
-        }
-
-        defaultConfig {
-            applicationId = "com.rssfeed"
-            targetSdk = libs.versions.targetSdk.get().toInt()
-
-            versionCode = 1
-            versionName = "1.0"
-        }
-
-        packaging {
-            resources {
-                excludes += "/META-INF/{AL2.0,LGPL2.1}"
-            }
-        }
+    packaging {
+      resources {
+        excludes += "/META-INF/{AL2.0,LGPL2.1}"
+      }
     }
+  }
 }
