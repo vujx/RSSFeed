@@ -2,6 +2,7 @@
 androidGradlePlugin = "8.5.2"
 androidxLifecycle = "2.8.7"
 androidxCore = "1.15.0"
+arrow = "1.2.4"
 composeBom = "2024.12.01"
 composeActivity = "1.9.3"
 detekt = "1.23.7"
@@ -22,6 +23,8 @@ composeCompiler = "1.5.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+
+arrow-core = { group = "io.arrow-kt", name = "arrow-core", version.ref = "arrow" }
 
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }

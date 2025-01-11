@@ -11,6 +11,8 @@ android {
 dependencies {
     implementation(projects.domain)
 
+    implementation(libs.arrow.core)
+
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
 

@@ -11,6 +11,8 @@ dependencies {
     implementation(projects.domain)
     implementation(projects.data)
 
+    implementation(libs.arrow.core)
+
     implementation(libs.androidx.core.ktx)
 
     implementation(platform(libs.koin.bom))

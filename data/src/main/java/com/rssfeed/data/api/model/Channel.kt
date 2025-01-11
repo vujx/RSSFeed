@@ -19,7 +19,7 @@ data class Channel(
   @XmlElement(true)
   val lastBuildDate: String?,
   @XmlElement(true)
-  val articles: List<Article>,
+  val articles: List<Article>?,
 ) {
 
   fun toChannelEntity(): ChannelEntity? {
@@ -29,7 +29,7 @@ data class Channel(
       link = link,
       title = title.orEmpty(),
       description = description.orEmpty(),
-      url = image?.url.orEmpty(),
+      imageUrl = image?.url.orEmpty(),
       lastBuildDate = lastBuildDate.orEmpty(),
       isFavorite = 0,
     )

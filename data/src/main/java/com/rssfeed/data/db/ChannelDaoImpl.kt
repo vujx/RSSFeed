@@ -25,7 +25,7 @@ class ChannelDaoImpl(
         link = link,
         title = title,
         description = description,
-        url = url,
+        imageUrl = imageUrl,
         lastBuildDate = lastBuildDate,
         isFavorite = isFavorite,
       )

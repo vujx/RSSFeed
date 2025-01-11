@@ -12,12 +12,11 @@ class ApiServiceImpl(
   private val xml: XML,
 ) : ApiService {
 
-  override suspend fun addRssFeed(url: String) {
+  override suspend fun addRssFeed(url: String): RssFeed {
     val response = client
       .request(url)
       .bodyAsText()
 
-    // Get Feed
-    xml.decodeFromString<RssFeed>(response)
+    return xml.decodeFromString<RssFeed>(response)
   }
 }
