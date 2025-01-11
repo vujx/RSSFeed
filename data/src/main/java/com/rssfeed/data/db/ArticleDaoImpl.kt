@@ -24,7 +24,7 @@ class ArticleDaoImpl(
         description = description,
         link = link,
         pubDate = pubDate,
-        url = url,
+        imageUrl = imageUrl,
         channelLink = channelLink,
       )
     }

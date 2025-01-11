@@ -27,7 +27,7 @@ data class Article(
       title = title.orEmpty(),
       description = description.orEmpty(),
       link = link,
-      url = media?.url.orEmpty(),
+      imageUrl = media?.url.orEmpty(),
       pubDate = pubDate.orEmpty(),
       channelLink = channelLink,
     )
