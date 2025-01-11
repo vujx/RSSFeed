@@ -23,10 +23,10 @@ class RssFeedRepositoryImpl(
   override suspend fun addRssFeed(url: String): Either<RssFeedError, Unit> = safeApiCall {
     apiService.addRssFeed(url)
   }.map { rssFeed ->
-    val channelEntity = rssFeed.channel?.toChannelEntity()
+    val channelEntity = rssFeed.channel?.toChannelEntity(url)
       ?: return UnknownError.left()
 
-    channelDao.insertChannel(channelEntity)
+    channelDao.insertChannel(channelEntity, url)
 
     rssFeed.channel.articles?.mapNotNull { article ->
       article.toArticleEntity(channelEntity.link)

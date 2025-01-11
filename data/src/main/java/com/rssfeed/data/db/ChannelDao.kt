@@ -7,7 +7,12 @@ interface ChannelDao {
 
   fun observeChannels(): Flow<List<ChannelEntity>>
 
-  suspend fun insertChannel(channelEntity: ChannelEntity)
+  fun getChannels(): List<ChannelEntity>
+
+  suspend fun insertChannel(
+    channelEntity: ChannelEntity,
+    rssFeedUrl: String,
+  )
 
   suspend fun deleteChannel(link: String)
 
