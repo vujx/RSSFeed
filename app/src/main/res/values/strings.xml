@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">RSSFeed</string>
+
+    <!-- Home -->
+    <string name="home_screen_bottom_navigation_title">Home</string>
+
+    <!-- Favorites -->
+    <string name="favorites_screen_bottom_navigation_title">Favorites</string>
+
 </resources>
