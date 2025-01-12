@@ -17,8 +17,12 @@ class ChannelDaoImpl(
   override fun observeChannels(): Flow<List<ChannelEntity>> =
     channelQueries.getChannels().asFlow().mapToList(dispatchers.io)
 
+  override fun getChannels(): List<ChannelEntity> =
+    channelQueries.getChannels().executeAsList()
+
   override suspend fun insertChannel(
     channelEntity: ChannelEntity,
+    rssFeedUrl: String,
   ) = channelQueries.transactionWithResult {
     with(channelEntity) {
       channelQueries.insertChannel(
@@ -27,7 +31,9 @@ class ChannelDaoImpl(
         description = description,
         imageUrl = imageUrl,
         lastBuildDate = lastBuildDate,
+        rssFeedUrl = rssFeedUrl,
         isFavorite = isFavorite,
+        isSubscribed = isSubscribed,
       )
     }
   }

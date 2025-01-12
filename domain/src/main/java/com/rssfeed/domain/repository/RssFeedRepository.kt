@@ -17,4 +17,6 @@ interface RssFeedRepository {
   fun observeFavoriteChannels(): Flow<List<ChannelItem>>
 
   fun observeArticlesByChannelLink(channelLink: String): Flow<List<ArticleItem>>
+
+  suspend fun syncAndGetUpdatedSubscribedChannelTitles(): List<String>
 }

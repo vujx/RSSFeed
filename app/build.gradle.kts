@@ -19,4 +19,6 @@ dependencies {
     implementation(libs.bundles.koin)
 
     implementation(libs.sqldelight.android)
+
+    implementation(libs.work.manager)
 }

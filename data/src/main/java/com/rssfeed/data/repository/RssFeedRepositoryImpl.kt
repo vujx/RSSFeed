@@ -3,14 +3,19 @@ package com.rssfeed.data.repository
 import arrow.core.Either
 import arrow.core.left
 import com.rssfeed.data.api.ApiService
+import com.rssfeed.data.api.model.RssFeed
 import com.rssfeed.data.api.safeApiCall
 import com.rssfeed.data.db.ArticleDao
 import com.rssfeed.data.db.ChannelDao
+import com.rssfeed.data.schema.ChannelEntity
 import com.rssfeed.domain.error.RssFeedError
 import com.rssfeed.domain.error.RssFeedError.UnknownError
 import com.rssfeed.domain.model.ArticleItem
 import com.rssfeed.domain.model.ChannelItem
 import com.rssfeed.domain.repository.RssFeedRepository
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -23,16 +28,10 @@ class RssFeedRepositoryImpl(
   override suspend fun addRssFeed(url: String): Either<RssFeedError, Unit> = safeApiCall {
     apiService.addRssFeed(url)
   }.map { rssFeed ->
-    val channelEntity = rssFeed.channel?.toChannelEntity()
+    val channelEntity = rssFeed.channel?.toChannelEntity(url)
       ?: return UnknownError.left()
 
-    channelDao.insertChannel(channelEntity)
-
-    rssFeed.channel.articles?.mapNotNull { article ->
-      article.toArticleEntity(channelEntity.link)
-    }?.forEach { articleEntity ->
-      articleDao.insertArticle(articleEntity, channelEntity.link)
-    }
+    insertChannelAndArticles(rssFeed, channelEntity, url)
   }
 
   override fun observeChannels(): Flow<List<ChannelItem>> =
@@ -52,4 +51,42 @@ class RssFeedRepositoryImpl(
 
   override fun observeArticlesByChannelLink(channelLink: String): Flow<List<ArticleItem>> =
     articleDao.observeArticlesByChannelLink(channelLink).map { it.toArticleItems() }
+
+  override suspend fun syncAndGetUpdatedSubscribedChannelTitles(): List<String> =
+    coroutineScope<List<String>> {
+      val updatedSubscribedChannelTitles = mutableListOf<String>()
+
+      channelDao.getChannels().map { channel ->
+        async {
+          safeApiCall {
+            apiService.addRssFeed(channel.rssFeedUrl)
+          }.map { rssFeed ->
+            if (rssFeed.channel?.lastBuildDate != channel.lastBuildDate) {
+              rssFeed.channel?.toChannelEntity(channel.rssFeedUrl)?.let { channelEntity ->
+                if (channelEntity.isSubscribed == 1L) {
+                  updatedSubscribedChannelTitles.add(channelEntity.title)
+                }
+                insertChannelAndArticles(rssFeed, channelEntity, channel.rssFeedUrl)
+              }
+            }
+          }
+        }
+      }.awaitAll()
+
+      return@coroutineScope updatedSubscribedChannelTitles
+    }
+
+  private suspend fun insertChannelAndArticles(
+    rssFeed: RssFeed,
+    channelEntity: ChannelEntity,
+    url: String,
+  ) {
+    channelDao.insertChannel(channelEntity, url)
+
+    rssFeed.channel?.articles?.mapNotNull { article ->
+      article.toArticleEntity(channelEntity.link)
+    }?.forEach { articleEntity ->
+      articleDao.insertArticle(articleEntity, channelEntity.link)
+    }
+  }
 }
