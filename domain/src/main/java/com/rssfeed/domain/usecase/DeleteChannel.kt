@@ -2,7 +2,7 @@ package com.rssfeed.domain.usecase
 
 import com.rssfeed.domain.repository.RssFeedRepository
 
-class DeleteRssFeed(
+class DeleteChannel(
   private val rssFeedRepository: RssFeedRepository,
 ) {
 
