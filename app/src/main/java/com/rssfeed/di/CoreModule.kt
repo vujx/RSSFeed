@@ -1,5 +1,6 @@
 package com.rssfeed.di
 
+import androidx.work.WorkManager
 import app.cash.sqldelight.async.coroutines.synchronous
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
@@ -25,4 +26,5 @@ val coreModule = module {
       main = Dispatchers.Main,
     )
   }
+  factory { WorkManager.getInstance(androidContext()) }
 }
