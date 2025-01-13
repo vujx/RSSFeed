@@ -20,3 +20,9 @@ DELETE FROM channelEntity WHERE link = ?;
 
 getFavoriteChannels:
 SELECT * FROM channelEntity WHERE isFavorite = 0;
+
+toggleFavoriteChannel:
+UPDATE channelEntity SET isFavorite = ? WHERE link = ?;
+
+toggleSubscribedChannel:
+UPDATE channelEntity SET isSubscribed = ? WHERE link = ?;

@@ -12,6 +12,7 @@ fun ChannelEntity.toChannelItem() = ChannelItem(
   imageUrl = imageUrl,
   lastBuildDate = lastBuildDate,
   isFavorite = isFavorite,
+  isSubscribed = isSubscribed,
 )
 
 fun List<ChannelEntity>.toChannelItems() = map { it.toChannelItem() }

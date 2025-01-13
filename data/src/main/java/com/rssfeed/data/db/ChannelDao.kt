@@ -16,5 +16,9 @@ interface ChannelDao {
 
   suspend fun deleteChannel(link: String)
 
+  suspend fun toggleFavoriteChannel(link: String, isFavorite: Long)
+
+  suspend fun toggleSubscribedChannel(link: String, isSubscribed: Long)
+
   fun observeFavoriteChannels(): Flow<List<ChannelEntity>>
 }

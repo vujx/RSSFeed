@@ -46,6 +46,24 @@ class RssFeedRepositoryImpl(
     }
   }
 
+  override suspend fun toggleFavoriteChannel(link: String, isFavorite: Long): Boolean {
+    return try {
+      channelDao.toggleFavoriteChannel(link, isFavorite)
+      true
+    } catch (e: Exception) {
+      false
+    }
+  }
+
+  override suspend fun toggleSubscribedChannel(link: String, isSubscribed: Long): Boolean {
+    return try {
+      channelDao.toggleSubscribedChannel(link, isSubscribed)
+      true
+    } catch (e: Exception) {
+      false
+    }
+  }
+
   override fun observeFavoriteChannels(): Flow<List<ChannelItem>> =
     channelDao.observeFavoriteChannels().map { it.toChannelItems() }
 
