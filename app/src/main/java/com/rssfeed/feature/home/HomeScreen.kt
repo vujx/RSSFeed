@@ -15,10 +15,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.rssfeed.R
 import com.rssfeed.core.components.LoadingIndicator
 import com.rssfeed.core.components.RssFeedChannelCard
+import com.rssfeed.core.components.RssFeedEmptyListScreen
 import com.rssfeed.core.components.RssFeedFadeInOutContent
-import com.rssfeed.feature.home.components.EmptyHomeList
 import com.rssfeed.feature.home.components.SearchTopBar
 import com.rssfeed.feature.home.model.HomeEvent
 import com.rssfeed.feature.home.model.HomeViewEffect
@@ -34,7 +36,7 @@ fun HomeScreen(
   val state by viewModel.state.collectAsState()
 
   LaunchedEffect(key1 = Unit) {
-    viewModel.onEvent(HomeEvent.OnGetSavedRssFeeds)
+    viewModel.onEvent(HomeEvent.ObserveSavedChannels)
 
     viewModel.viewEffect.collect { homeViewEffect ->
       when (homeViewEffect) {
@@ -77,7 +79,10 @@ fun HomeScreen(
       ) {
         if (state.homeItems.isEmpty() && !state.isLoading) {
           item {
-            EmptyHomeList(
+            RssFeedEmptyListScreen(
+              contentDescription = stringResource(id = R.string.home_screen_search_icon_content_description),
+              title = stringResource(id = R.string.home_screen_empty_home_list_title),
+              description = stringResource(id = R.string.home_screen_empty_home_list_description),
               modifier = Modifier
                 .fillParentMaxWidth()
                 .fillParentMaxHeight(0.9f),
@@ -86,7 +91,7 @@ fun HomeScreen(
         } else {
           items(state.homeItems) { homeItem ->
             RssFeedChannelCard(
-              homeItem = homeItem,
+              item = homeItem,
               onCardClick = {
                 viewModel.onEvent(HomeEvent.OnItemClicked(homeItem.channelLink))
               },

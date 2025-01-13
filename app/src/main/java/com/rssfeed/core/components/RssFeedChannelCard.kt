@@ -28,16 +28,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.rssfeed.R
-import com.rssfeed.feature.home.model.HomeItem
+import com.rssfeed.core.base.BaseChannelItem
 
 @Composable
 fun RssFeedChannelCard(
-  homeItem: HomeItem,
+  item: BaseChannelItem,
   onCardClick: () -> Unit,
-  onDeleteIconClicked: () -> Unit,
   onFavoriteIconClicked: () -> Unit,
   onSubscribedIconClicked: () -> Unit,
   modifier: Modifier = Modifier,
+  onDeleteIconClicked: (() -> Unit)? = null,
 ) {
   Card(
     modifier = modifier
@@ -57,8 +57,8 @@ fun RssFeedChannelCard(
         horizontalArrangement = Arrangement.SpaceBetween,
       ) {
         RssFeedAsyncImage(
-          imageUrl = homeItem.imageUrl,
-          contentDescription = homeItem.title,
+          imageUrl = item.imageUrl,
+          contentDescription = item.title,
           modifier = Modifier
             .size(60.dp)
             .clip(MaterialTheme.shapes.small),
@@ -67,16 +67,16 @@ fun RssFeedChannelCard(
           modifier = Modifier.padding(horizontal = 8.dp),
         ) {
           Text(
-            text = homeItem.title,
+            text = item.title,
             style = MaterialTheme.typography.h1,
           )
           Text(
-            text = homeItem.description,
+            text = item.description,
             style = MaterialTheme.typography.body1,
           )
           ChannelIcons(
-            isFavorite = homeItem.isFavorite,
-            isSubscribed = homeItem.isSubscribed,
+            isFavorite = item.isFavorite,
+            isSubscribed = item.isSubscribed,
             onDeleteIconClicked = onDeleteIconClicked,
             onFavoriteIconClicked = onFavoriteIconClicked,
             onSubscribedIconClicked = onSubscribedIconClicked,
@@ -91,9 +91,9 @@ fun RssFeedChannelCard(
 private fun ChannelIcons(
   isFavorite: Boolean,
   isSubscribed: Boolean,
-  onDeleteIconClicked: () -> Unit,
   onFavoriteIconClicked: () -> Unit,
   onSubscribedIconClicked: () -> Unit,
+  onDeleteIconClicked: (() -> Unit)?,
   modifier: Modifier = Modifier,
 ) {
   Row(
@@ -144,13 +144,15 @@ private fun ChannelIcons(
         )
       }
     }
-    ChannelIcon(
-      imageVector = Icons.Default.DeleteOutline,
-      contentDescription = stringResource(id = R.string.home_screen_delete_icon_content_description),
-      modifier = Modifier
-        .clip(CircleShape)
-        .clickable(onClick = onDeleteIconClicked),
-    )
+    if (onDeleteIconClicked != null) {
+      ChannelIcon(
+        imageVector = Icons.Default.DeleteOutline,
+        contentDescription = stringResource(id = R.string.home_screen_delete_icon_content_description),
+        modifier = Modifier
+          .clip(CircleShape)
+          .clickable(onClick = onDeleteIconClicked),
+      )
+    }
   }
 }
 

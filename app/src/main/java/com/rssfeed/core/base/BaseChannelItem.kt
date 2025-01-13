@@ -1,25 +1,22 @@
-package com.rssfeed.feature.home.model
+package com.rssfeed.core.base
 
-import androidx.annotation.DrawableRes
-import com.rssfeed.R
 import com.rssfeed.domain.model.ChannelItem
 
-data class HomeItem(
+data class BaseChannelItem(
   val channelLink: String,
   val title: String,
   val description: String,
   val imageUrl: String,
   val isFavorite: Boolean,
   val isSubscribed: Boolean,
-  @DrawableRes val fallbackImage: Int = R.drawable.ic_rss_feed_fallback_image,
 )
 
-fun List<ChannelItem>.toHomeItems() = map { channelItem ->
+fun List<ChannelItem>.toItems() = map { channelItem ->
   with(channelItem) {
     val isFavorite = isFavorite == 1L
     val isSubscribed = isSubscribed == 1L
 
-    HomeItem(
+    BaseChannelItem(
       channelLink = channelItem.link,
       title = title,
       description = description,
