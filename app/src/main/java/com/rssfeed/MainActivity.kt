@@ -10,6 +10,7 @@ import com.rssfeed.core.RssFeedBottomNavigationScaffold
 import com.rssfeed.core.navigation.BottomBarDestination
 import com.rssfeed.core.navigation.NavigationEffect
 import com.rssfeed.feature.articles.ArticlesDestination
+import com.rssfeed.feature.articles.ArticlesDestination.CHANNEL_LINK_PARAM
 import com.rssfeed.feature.articles.ArticlesScreen
 import com.rssfeed.ui.theme.RSSFeedTheme
 
@@ -28,7 +29,12 @@ class MainActivity : ComponentActivity() {
           composable(BottomBarDestination.route()) {
             RssFeedBottomNavigationScaffold()
           }
-          composable(ArticlesDestination.route()) {
+          composable(
+            route = ArticlesDestination.route(),
+            arguments = ArticlesDestination.arguments,
+          ) { backStackEntry ->
+            val link = backStackEntry.arguments?.getString(CHANNEL_LINK_PARAM)
+              ?: error("$CHANNEL_LINK_PARAM was not provided to articleRoute")
             ArticlesScreen()
           }
         }

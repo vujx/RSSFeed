@@ -15,8 +15,8 @@ import com.rssfeed.core.navigation.BottomNavigationDestination
 import com.rssfeed.core.navigation.BottomNavigationEffect
 import com.rssfeed.feature.favorites.FavoritesDestination
 import com.rssfeed.feature.favorites.FavoritesScreen
-import com.rssfeed.feature.home.HomeDestination
 import com.rssfeed.feature.home.HomeScreen
+import com.rssfeed.feature.home.destination.HomeDestination
 
 @Composable
 fun RssFeedBottomNavigationScaffold(
