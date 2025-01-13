@@ -3,6 +3,7 @@ androidGradlePlugin = "8.5.2"
 androidxLifecycle = "2.8.7"
 androidxCore = "1.15.0"
 arrow = "1.2.4"
+coilCompose = "2.1.0"
 composeBom = "2024.12.01"
 composeActivity = "1.9.3"
 composeNavigation = "2.8.5"
@@ -15,6 +16,7 @@ kotlinxCoroutines = "1.8.0"
 ktlint = "0.50.0"
 ktlintGradlePlugin = "12.1.1"
 ktor = "2.3.6"
+materialIcons = "1.7.6"
 sqldelight = "2.0.1"
 workManager = "2.10.0"
 
@@ -31,7 +33,9 @@ arrow-core = { group = "io.arrow-kt", name = "arrow-core", version.ref = "arrow"
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+compose-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilCompose" }
 compose-material = { group = "androidx.compose.material", name = "material" }
+compose-material-icons = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "materialIcons" }
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -86,7 +90,9 @@ rssfeed-quality = { id = "rssfeed.quality", version = "unspecified" }
 compose = [
     "androidx-compose",
     "compose-activity",
+    "compose-coil",
     "compose-material",
+    "compose-material-icons",
     "compose-navigation",
     "compose-ui",
     "compose-tooling",
