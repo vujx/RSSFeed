@@ -1,4 +1,4 @@
-package com.rssfeed.feature.home
+package com.rssfeed.feature.home.destination
 
 import com.rssfeed.R
 import com.rssfeed.core.navigation.BottomNavigationDestination

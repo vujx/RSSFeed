@@ -3,7 +3,7 @@ package com.rssfeed.core.navigation
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.rssfeed.feature.favorites.FavoritesDestination
-import com.rssfeed.feature.home.HomeDestination
+import com.rssfeed.feature.home.destination.HomeDestination
 
 abstract class BottomNavigationDestination<T>(
   @StringRes val resourceId: Int,
