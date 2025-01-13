@@ -7,4 +7,8 @@
     <!-- Favorites -->
     <string name="favorites_screen_bottom_navigation_title">Favorites</string>
 
+    <!-- ErrorMessage -->
+    <string name="unknown_error_message">An unexpected error occurred. Please try again later.</string>
+    <string name="connectivity_error_message">No internet connection. Please check your network and try again.</string>
+    <string name="not_found_error_message">The requested content was not found. Please check the link and try again.</string>
 </resources>
