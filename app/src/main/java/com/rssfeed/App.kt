@@ -42,7 +42,7 @@ class App : Application(), KoinComponent {
   private fun enqueueSyncDataWorker() {
     workManager.enqueueUniquePeriodicWork(
       SYNC_DATA_WORKER_NAME,
-      ExistingPeriodicWorkPolicy.REPLACE,
+      ExistingPeriodicWorkPolicy.UPDATE,
       PeriodicWorkRequestBuilder<SyncDataWorker>(
         SYNC_DATA_WORKER_PERIOD,
         TimeUnit.HOURS,

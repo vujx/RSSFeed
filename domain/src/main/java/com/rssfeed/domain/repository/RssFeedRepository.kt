@@ -14,6 +14,10 @@ interface RssFeedRepository {
 
   suspend fun deleteChannel(link: String): Boolean
 
+  suspend fun toggleFavoriteChannel(link: String, isFavorite: Long): Boolean
+
+  suspend fun toggleSubscribedChannel(link: String, isSubscribed: Long): Boolean
+
   fun observeFavoriteChannels(): Flow<List<ChannelItem>>
 
   fun observeArticlesByChannelLink(channelLink: String): Flow<List<ArticleItem>>

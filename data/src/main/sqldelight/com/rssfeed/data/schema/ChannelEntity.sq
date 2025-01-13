@@ -10,7 +10,7 @@ CREATE TABLE channelEntity(
 );
 
 getChannels:
-SELECT * FROM channelEntity;
+SELECT * FROM channelEntity ORDER BY title ASC;
 
 insertChannel:
 INSERT OR REPLACE INTO channelEntity VALUES (?, ?, ?, ?, ?, ?, ?, ?);
@@ -19,4 +19,10 @@ deleteChannel:
 DELETE FROM channelEntity WHERE link = ?;
 
 getFavoriteChannels:
-SELECT * FROM channelEntity WHERE isFavorite = 0;
+SELECT * FROM channelEntity WHERE isFavorite = 0 ORDER BY title ASC;
+
+toggleFavoriteChannel:
+UPDATE channelEntity SET isFavorite = ? WHERE link = ?;
+
+toggleSubscribedChannel:
+UPDATE channelEntity SET isSubscribed = ? WHERE link = ?;

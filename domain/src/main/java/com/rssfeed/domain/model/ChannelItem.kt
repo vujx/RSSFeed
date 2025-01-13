@@ -7,4 +7,5 @@ data class ChannelItem(
   val imageUrl: String,
   val lastBuildDate: String,
   val isFavorite: Long,
+  val isSubscribed: Long,
 )
