@@ -13,4 +13,5 @@ val appModules = listOf(
   repositoryModule,
   useCaseModule,
   validatorModule,
+  mapperModule,
 )
