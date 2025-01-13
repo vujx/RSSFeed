@@ -14,4 +14,5 @@ val appModules = listOf(
   useCaseModule,
   validatorModule,
   mapperModule,
+  viewModelModule,
 )
