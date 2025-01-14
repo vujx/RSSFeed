@@ -9,10 +9,10 @@ import androidx.navigation.compose.rememberNavController
 import com.rssfeed.core.RssFeedBottomNavigationScaffold
 import com.rssfeed.core.navigation.BottomBarDestination
 import com.rssfeed.core.navigation.NavigationEffect
+import com.rssfeed.core.ui.theme.RSSFeedTheme
 import com.rssfeed.feature.articles.ArticlesDestination
 import com.rssfeed.feature.articles.ArticlesDestination.CHANNEL_LINK_PARAM
 import com.rssfeed.feature.articles.ArticlesScreen
-import com.rssfeed.ui.theme.RSSFeedTheme
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
