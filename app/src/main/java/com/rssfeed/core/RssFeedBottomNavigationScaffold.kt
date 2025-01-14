@@ -13,8 +13,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.rssfeed.core.navigation.BottomNavigationDestination
 import com.rssfeed.core.navigation.BottomNavigationEffect
-import com.rssfeed.feature.favorites.FavoritesDestination
 import com.rssfeed.feature.favorites.FavoritesScreen
+import com.rssfeed.feature.favorites.destination.FavoritesDestination
 import com.rssfeed.feature.home.HomeScreen
 import com.rssfeed.feature.home.destination.HomeDestination
 

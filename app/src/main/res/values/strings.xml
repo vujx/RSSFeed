@@ -19,6 +19,12 @@
 
     <!-- Favorites -->
     <string name="favorites_screen_bottom_navigation_title">Favorites</string>
+    <string name="favorites_screen_failed_toggle_favorite_channel_error_message">Failed to update the favorite channel. Please try again.</string>
+    <string name="favorites_screen_failed_toggle_subscribed_channel_error_message">Failed to update the subscribed channel. Please try again.</string>
+    <string name="favorites_screen_top_bar_title">Favorites</string>
+    <string name="favorites_screen_empty_favorites_list_title">No favorite feeds yet</string>
+    <string name="favorites_screen_empty_favorites_list_description">Mark feeds as favorites to quickly access them here.</string>
+    <string name="favorites_screen_favorite_icon_content_description">Mark as favorite</string>
 
     <!-- ErrorMessage -->
     <string name="unknown_error_message">An unexpected error occurred. Please try again later.</string>
