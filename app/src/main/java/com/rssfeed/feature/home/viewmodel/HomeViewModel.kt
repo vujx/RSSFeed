@@ -106,6 +106,7 @@ class HomeViewModel(
   }
 
   private fun handleOnSearchButtonClick() = viewModelScope.launch {
+    isLoading.update { true }
     if (validator(searchText.value)) {
       addRssFeed(searchText.value).onLeft {
         _viewEffect.send(HomeViewEffect.ErrorOccurred(errorMessageMapper(it)))
@@ -114,6 +115,7 @@ class HomeViewModel(
       val validationUrlErrorMessage = dictionary.getString(R.string.home_screen_validation_url_error)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(validationUrlErrorMessage))
     }
+    isLoading.update { false }
   }
 
   private fun handleOnDeleteIconClicked(link: String) = viewModelScope.launch {
