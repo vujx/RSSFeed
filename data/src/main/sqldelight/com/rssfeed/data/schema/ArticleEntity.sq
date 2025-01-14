@@ -9,7 +9,7 @@ CREATE TABLE articleEntity(
 );
 
 getArticlesByChannelLink:
-SELECT * FROM articleEntity WHERE channelLink = ? ORDER BY pubDate DESC;
+SELECT * FROM articleEntity WHERE channelLink = ?;
 
 insertArticle:
 INSERT OR REPLACE INTO articleEntity VALUES (?, ?, ?, ?, ?, ?);

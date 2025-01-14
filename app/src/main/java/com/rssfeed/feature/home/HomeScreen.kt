@@ -1,5 +1,8 @@
 package com.rssfeed.feature.home
 
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -7,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -35,7 +37,16 @@ fun HomeScreen(
 ) {
   val state by viewModel.state.collectAsState()
 
+  val permissionLauncher = rememberLauncherForActivityResult(
+    contract = ActivityResultContracts.RequestPermission(),
+    onResult = { },
+  )
+
   LaunchedEffect(key1 = Unit) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      permissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+    }
+
     viewModel.onEvent(HomeEvent.ObserveSavedChannels)
 
     viewModel.viewEffect.collect { homeViewEffect ->
@@ -43,7 +54,6 @@ fun HomeScreen(
         is HomeViewEffect.ErrorOccurred -> {
           scaffoldState.snackbarHostState.showSnackbar(
             message = homeViewEffect.errorMessage,
-            duration = SnackbarDuration.Short,
           )
         }
       }

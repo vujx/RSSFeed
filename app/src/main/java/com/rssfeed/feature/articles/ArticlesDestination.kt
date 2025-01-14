@@ -1,14 +1,16 @@
 package com.rssfeed.feature.articles
 
 import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavDeepLink
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.rssfeed.core.navigation.NavigationDestination
 import com.rssfeed.feature.articles.ArticlesDestination.CHANNEL_LINK_PARAM
 
 object ArticlesDestination : NavigationDestination<String> {
 
-  override fun route(): String = ARTICLE__ROUTE
+  override fun route(): String = ARTICLE_ROUTE
 
   override fun buildRoute(data: String): String = "$ARTICLE_ROOT/${data.encodeUrl()}"
 
@@ -17,8 +19,14 @@ object ArticlesDestination : NavigationDestination<String> {
       navArgument(CHANNEL_LINK_PARAM) { type = NavType.StringType },
     )
 
+  override val deepLinks: List<NavDeepLink>
+    get() = listOf(
+      navDeepLink { uriPattern = ARTICLES_URI },
+    )
+
   const val CHANNEL_LINK_PARAM = "channelLink"
 }
 
 private const val ARTICLE_ROOT = "articles"
-private const val ARTICLE__ROUTE = "$ARTICLE_ROOT/{$CHANNEL_LINK_PARAM}"
+private const val ARTICLE_ROUTE = "$ARTICLE_ROOT/{$CHANNEL_LINK_PARAM}"
+const val ARTICLES_URI = "rssFeed://articles_screen/{$CHANNEL_LINK_PARAM}"

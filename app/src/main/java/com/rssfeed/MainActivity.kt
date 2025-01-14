@@ -32,6 +32,7 @@ class MainActivity : ComponentActivity() {
           composable(
             route = ArticlesDestination.route(),
             arguments = ArticlesDestination.arguments,
+            deepLinks = ArticlesDestination.deepLinks,
           ) { backStackEntry ->
             val link = backStackEntry.arguments?.getString(CHANNEL_LINK_PARAM)
               ?: error("$CHANNEL_LINK_PARAM was not provided to articleRoute")
