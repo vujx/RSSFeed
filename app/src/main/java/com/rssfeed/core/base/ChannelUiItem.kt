@@ -2,7 +2,7 @@ package com.rssfeed.core.base
 
 import com.rssfeed.domain.model.ChannelItem
 
-data class BaseChannelItem(
+data class ChannelUiItem(
   val channelLink: String,
   val title: String,
   val description: String,
@@ -16,10 +16,10 @@ fun List<ChannelItem>.toItems() = map { channelItem ->
     val isFavorite = isFavorite == 1L
     val isSubscribed = isSubscribed == 1L
 
-    BaseChannelItem(
+    ChannelUiItem(
       channelLink = channelItem.link,
-      title = title,
-      description = description,
+      title = title.trim(),
+      description = description.trim(),
       imageUrl = imageUrl,
       isFavorite = isFavorite,
       isSubscribed = isSubscribed,

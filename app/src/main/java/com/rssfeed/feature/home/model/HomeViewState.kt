@@ -1,9 +1,9 @@
 package com.rssfeed.feature.home.model
 
-import com.rssfeed.core.base.BaseChannelItem
+import com.rssfeed.core.base.ChannelUiItem
 
 data class HomeViewState(
   val text: String = "",
-  val homeItems: List<BaseChannelItem> = emptyList(),
+  val homeItems: List<ChannelUiItem> = emptyList(),
   val isLoading: Boolean = false,
 )

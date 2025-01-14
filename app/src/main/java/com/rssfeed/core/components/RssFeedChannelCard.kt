@@ -28,11 +28,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.rssfeed.R
-import com.rssfeed.core.base.BaseChannelItem
+import com.rssfeed.core.base.ChannelUiItem
 
 @Composable
 fun RssFeedChannelCard(
-  item: BaseChannelItem,
+  item: ChannelUiItem,
   onCardClick: () -> Unit,
   onFavoriteIconClicked: () -> Unit,
   onSubscribedIconClicked: () -> Unit,
