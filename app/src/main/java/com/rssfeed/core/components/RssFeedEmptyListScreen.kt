@@ -10,10 +10,11 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
@@ -23,6 +24,7 @@ fun RssFeedEmptyListScreen(
   description: String,
   contentDescription: String,
   modifier: Modifier = Modifier,
+  imageVector: ImageVector = Icons.Default.Search,
 ) {
   Column(
     modifier = modifier.padding(horizontal = 16.dp),
@@ -30,7 +32,7 @@ fun RssFeedEmptyListScreen(
     verticalArrangement = Arrangement.Center,
   ) {
     Icon(
-      imageVector = Icons.Default.Favorite,
+      imageVector = imageVector,
       contentDescription = contentDescription,
       tint = MaterialTheme.colors.secondary,
       modifier = Modifier.size(56.dp),
