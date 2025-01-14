@@ -13,18 +13,16 @@ import java.net.URLEncoder
 class SyncDataWorker(
   private val appContext: Context,
   private val workerParams: WorkerParameters,
-  private val showNotification: ShowNotification,
 ) : CoroutineWorker(appContext, workerParams), KoinComponent {
 
   private val syncAndGetUpdatedSubscribedChannels: SyncAndGetUpdatedSubscribedChannels by inject()
+  private val showNotification: ShowNotification by inject()
 
   override suspend fun doWork(): Result {
-    val subscribedChannelTitles = syncAndGetUpdatedSubscribedChannels()
-
-    subscribedChannelTitles.forEach { channelItem ->
+    syncAndGetUpdatedSubscribedChannels().forEach { channelItem ->
       showNotification(
         title = channelItem.title,
-        body = appContext.getString(R.string.notification_message),
+        body = appContext.getString(R.string.notification_new_articles_body),
         uri = getUri(channelItem.link),
       )
     }
@@ -35,10 +33,7 @@ class SyncDataWorker(
   private fun getUri(link: String): String {
     val articlesUri = workerParams.inputData.getString(ARTICLES_URI_KEY).orEmpty()
     val channelLinkParams = workerParams.inputData.getString(CHANNEL_LINK_PARAM_KEY).orEmpty()
-    return articlesUri.replace(
-      channelLinkParams,
-      link.encodeUrl(),
-    )
+    return articlesUri.replace("{$channelLinkParams}", link.encodeUrl())
   }
 
   private fun String.encodeUrl(): String = URLEncoder.encode(this, "UTF-8")

@@ -30,6 +30,7 @@ class RssFeedRepositoryImpl(
       ?: return UnknownError.left()
 
     channelDao.insertChannel(channelEntity, url)
+    articleDao.deleteArticlesByChannelLink(channelEntity.link)
 
     rssFeed.channel.articles?.mapNotNull { article ->
       article.toArticleEntity(channelEntity.link)

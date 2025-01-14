@@ -76,7 +76,7 @@ class App : Application(), KoinComponent {
         val channel = NotificationChannel(
           CHANNEL_ID,
           CHANNEL_NAME,
-          NotificationManager.IMPORTANCE_HIGH,
+          NotificationManager.IMPORTANCE_DEFAULT,
         )
         createNotificationChannel(channel)
       }
@@ -85,7 +85,7 @@ class App : Application(), KoinComponent {
 }
 
 private const val SYNC_DATA_WORKER_NAME = "syncDataWorker"
-private const val SYNC_DATA_WORKER_PERIOD = 24L
+private const val SYNC_DATA_WORKER_PERIOD = 2L
 
 // If you change the value of the keys, make sure to update it in the worker as well
 private const val ARTICLES_URI_KEY = "articlesUri"

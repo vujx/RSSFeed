@@ -16,11 +16,7 @@ object ArticlesDestination : NavigationDestination<String> {
 
   override val arguments: List<NamedNavArgument>
     get() = listOf(
-      navArgument(CHANNEL_LINK_PARAM) {
-        type = NavType.StringType
-        nullable = true
-        defaultValue = null
-      },
+      navArgument(CHANNEL_LINK_PARAM) { type = NavType.StringType },
     )
 
   override val deepLinks: List<NavDeepLink>

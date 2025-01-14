@@ -36,7 +36,6 @@ class ShowNotification(
       .setContentText(body)
       .setSmallIcon(R.drawable.ic_notification)
       .setContentIntent(getContentIntent(uri))
-      .setAutoCancel(true)
   }
 
   private fun getContentIntent(uri: String): PendingIntent? {

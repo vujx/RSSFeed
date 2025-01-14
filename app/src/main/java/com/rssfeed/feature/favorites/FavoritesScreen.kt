@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -47,7 +46,6 @@ fun FavoritesScreen(
         is HomeViewEffect.ErrorOccurred -> {
           scaffoldState.snackbarHostState.showSnackbar(
             message = favoritesViewEffect.errorMessage,
-            duration = SnackbarDuration.Short,
           )
         }
       }
