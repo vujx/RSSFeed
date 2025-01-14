@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -41,7 +42,7 @@ fun SearchTopBar(
 ) {
   TopAppBar(
     modifier = modifier,
-    backgroundColor = MaterialTheme.colors.primaryVariant,
+    backgroundColor = MaterialTheme.colors.primary,
   ) {
     SearchTextField(
       searchText = searchText(),
@@ -64,6 +65,10 @@ private fun SearchTextField(
     onValueChange = {
       onEvent(HomeEvent.OnSearchUpdated(it))
     },
+    textStyle = MaterialTheme.typography.body1.copy(
+      color = Color.White,
+    ),
+    cursorBrush = SolidColor(Color.White),
     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
     keyboardActions = KeyboardActions(
       onSearch = {
@@ -157,13 +162,13 @@ private fun SearchClearIcon(
       }
       .padding(8.dp)
       .clip(CircleShape)
-      .background(Color.DarkGray)
+      .background(Color.White)
       .size(20.dp),
   ) {
     Icon(
       imageVector = Icons.Default.Clear,
       contentDescription = contentDescription,
-      tint = Color.White,
+      tint = Color.DarkGray,
       modifier = Modifier
         .align(Alignment.Center)
         .padding(2.dp),
