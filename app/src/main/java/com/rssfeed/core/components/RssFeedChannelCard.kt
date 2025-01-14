@@ -26,7 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import com.rssfeed.R
 import com.rssfeed.core.base.ChannelUiItem
 
@@ -69,10 +71,14 @@ fun RssFeedChannelCard(
           Text(
             text = item.title,
             style = MaterialTheme.typography.h1,
+            maxLines = TITLE_MAX_LINES,
+            overflow = TextOverflow.Ellipsis,
           )
           Text(
             text = item.description,
             style = MaterialTheme.typography.body1,
+            maxLines = DESCRIPTION_MAX_LINES,
+            overflow = TextOverflow.Ellipsis,
           )
           ChannelIcons(
             isFavorite = item.isFavorite,
@@ -170,3 +176,6 @@ private fun ChannelIcon(
       .size(18.dp),
   )
 }
+
+private const val TITLE_MAX_LINES = 5
+private const val DESCRIPTION_MAX_LINES = 5

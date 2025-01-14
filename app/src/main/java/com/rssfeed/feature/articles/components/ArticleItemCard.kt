@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.rssfeed.core.components.RssFeedAsyncImage
 import com.rssfeed.feature.articles.model.ArticleUiItem
@@ -59,10 +60,14 @@ fun ArticleItemCard(
           Text(
             text = articleItem.title,
             style = MaterialTheme.typography.h1,
+            maxLines = TITLE_MAX_LINES,
+            overflow = TextOverflow.Ellipsis,
           )
           Text(
             text = articleItem.description,
             style = MaterialTheme.typography.body1,
+            maxLines = DESCRIPTION_MAX_LINES,
+            overflow = TextOverflow.Ellipsis,
           )
           Text(
             text = articleItem.pubDate,
@@ -73,3 +78,6 @@ fun ArticleItemCard(
     }
   }
 }
+
+private const val TITLE_MAX_LINES = 5
+private const val DESCRIPTION_MAX_LINES = 10
