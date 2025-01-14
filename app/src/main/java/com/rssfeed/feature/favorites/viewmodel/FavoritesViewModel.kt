@@ -2,8 +2,8 @@ package com.rssfeed.feature.favorites.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.rssfeed.R
-import com.rssfeed.core.base.BaseChannelItem
 import com.rssfeed.core.base.BaseViewModel
+import com.rssfeed.core.base.ChannelUiItem
 import com.rssfeed.core.base.TIMEOUT_DELAY
 import com.rssfeed.core.base.toItems
 import com.rssfeed.core.dictionary.Dictionary
@@ -39,7 +39,7 @@ class FavoritesViewModel(
 
   private val navigator: Navigator by inject(named(APP_NAVIGATOR_QUALIFIER))
 
-  private val favoriteItems = MutableStateFlow<List<BaseChannelItem>>(emptyList())
+  private val favoriteItems = MutableStateFlow<List<ChannelUiItem>>(emptyList())
   private val isLoading = MutableStateFlow(true)
 
   private val _viewEffect = Channel<HomeViewEffect>(Channel.BUFFERED)

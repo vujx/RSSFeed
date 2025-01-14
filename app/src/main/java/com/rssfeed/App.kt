@@ -1,9 +1,7 @@
 package com.rssfeed
 
 import android.app.Application
-import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.rssfeed.di.appModules
@@ -19,9 +17,6 @@ import java.util.concurrent.TimeUnit
 class App : Application(), KoinComponent {
 
   private val workManager: WorkManager by inject()
-  private val syncDataWorkerConstraints = Constraints.Builder()
-    .setRequiredNetworkType(NetworkType.CONNECTED)
-    .build()
 
   override fun onCreate() {
     super.onCreate()
@@ -46,7 +41,7 @@ class App : Application(), KoinComponent {
       PeriodicWorkRequestBuilder<SyncDataWorker>(
         SYNC_DATA_WORKER_PERIOD,
         TimeUnit.HOURS,
-      ).setConstraints(syncDataWorkerConstraints).build(),
+      ).build(),
     )
   }
 }

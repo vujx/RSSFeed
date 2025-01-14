@@ -1,8 +1,8 @@
 package com.rssfeed.feature.favorites.model
 
-import com.rssfeed.core.base.BaseChannelItem
+import com.rssfeed.core.base.ChannelUiItem
 
 data class FavoritesViewState(
-  val favoriteItems: List<BaseChannelItem> = emptyList(),
+  val favoriteItems: List<ChannelUiItem> = emptyList(),
   val isLoading: Boolean = false,
 )

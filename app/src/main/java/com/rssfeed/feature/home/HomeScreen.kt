@@ -1,6 +1,6 @@
 package com.rssfeed.feature.home
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -65,13 +65,7 @@ fun HomeScreen(
       )
     },
   ) { paddingValues ->
-    Column {
-      RssFeedFadeInOutContent(
-        condition = state.isLoading,
-        content = {
-          LoadingIndicator()
-        },
-      )
+    Box {
       LazyColumn(
         modifier = Modifier
           .padding(paddingValues)
@@ -112,6 +106,12 @@ fun HomeScreen(
           }
         }
       }
+      RssFeedFadeInOutContent(
+        condition = state.isLoading,
+        content = {
+          LoadingIndicator()
+        },
+      )
     }
   }
 }

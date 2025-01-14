@@ -2,8 +2,8 @@ package com.rssfeed.feature.home.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.rssfeed.R
-import com.rssfeed.core.base.BaseChannelItem
 import com.rssfeed.core.base.BaseViewModel
+import com.rssfeed.core.base.ChannelUiItem
 import com.rssfeed.core.base.TIMEOUT_DELAY
 import com.rssfeed.core.base.toItems
 import com.rssfeed.core.dictionary.Dictionary
@@ -48,7 +48,7 @@ class HomeViewModel(
   private val navigator: Navigator by inject(named(APP_NAVIGATOR_QUALIFIER))
 
   private val searchText = MutableStateFlow("")
-  private val homeItems = MutableStateFlow<List<BaseChannelItem>>(emptyList())
+  private val homeItems = MutableStateFlow<List<ChannelUiItem>>(emptyList())
   private val isLoading = MutableStateFlow(true)
 
   private val _viewEffect = Channel<HomeViewEffect>(Channel.BUFFERED)
@@ -106,6 +106,7 @@ class HomeViewModel(
   }
 
   private fun handleOnSearchButtonClick() = viewModelScope.launch {
+    isLoading.update { true }
     if (validator(searchText.value)) {
       addRssFeed(searchText.value).onLeft {
         _viewEffect.send(HomeViewEffect.ErrorOccurred(errorMessageMapper(it)))
@@ -114,6 +115,7 @@ class HomeViewModel(
       val validationUrlErrorMessage = dictionary.getString(R.string.home_screen_validation_url_error)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(validationUrlErrorMessage))
     }
+    isLoading.update { false }
   }
 
   private fun handleOnDeleteIconClicked(link: String) = viewModelScope.launch {

@@ -3,11 +3,9 @@ package com.rssfeed.data.repository
 import arrow.core.Either
 import arrow.core.left
 import com.rssfeed.data.api.ApiService
-import com.rssfeed.data.api.model.RssFeed
 import com.rssfeed.data.api.safeApiCall
 import com.rssfeed.data.db.ArticleDao
 import com.rssfeed.data.db.ChannelDao
-import com.rssfeed.data.schema.ChannelEntity
 import com.rssfeed.domain.error.RssFeedError
 import com.rssfeed.domain.error.RssFeedError.UnknownError
 import com.rssfeed.domain.model.ArticleItem
@@ -31,7 +29,13 @@ class RssFeedRepositoryImpl(
     val channelEntity = rssFeed.channel?.toChannelEntity(url)
       ?: return UnknownError.left()
 
-    insertChannelAndArticles(rssFeed, channelEntity, url)
+    channelDao.insertChannel(channelEntity, url)
+
+    rssFeed.channel.articles?.mapNotNull { article ->
+      article.toArticleEntity(channelEntity.link)
+    }?.forEach { articleEntity ->
+      articleDao.insertArticle(articleEntity, channelEntity.link)
+    }
   }
 
   override fun observeChannels(): Flow<List<ChannelItem>> =
@@ -84,7 +88,15 @@ class RssFeedRepositoryImpl(
                 if (channelEntity.isSubscribed == 1L) {
                   updatedSubscribedChannelTitles.add(channelEntity.title)
                 }
-                insertChannelAndArticles(rssFeed, channelEntity, channel.rssFeedUrl)
+
+                channelDao.insertChannel(channelEntity, channelEntity.link)
+                articleDao.deleteArticlesByChannelLink(channelEntity.link)
+
+                rssFeed.channel.articles?.mapNotNull { article ->
+                  article.toArticleEntity(channelEntity.link)
+                }?.forEach { articleEntity ->
+                  articleDao.insertArticle(articleEntity, channelEntity.link)
+                }
               }
             }
           }
@@ -93,18 +105,4 @@ class RssFeedRepositoryImpl(
 
       return@coroutineScope updatedSubscribedChannelTitles
     }
-
-  private suspend fun insertChannelAndArticles(
-    rssFeed: RssFeed,
-    channelEntity: ChannelEntity,
-    url: String,
-  ) {
-    channelDao.insertChannel(channelEntity, url)
-
-    rssFeed.channel?.articles?.mapNotNull { article ->
-      article.toArticleEntity(channelEntity.link)
-    }?.forEach { articleEntity ->
-      articleDao.insertArticle(articleEntity, channelEntity.link)
-    }
-  }
 }

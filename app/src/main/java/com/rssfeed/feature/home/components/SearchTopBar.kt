@@ -23,7 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -41,7 +41,7 @@ fun SearchTopBar(
 ) {
   TopAppBar(
     modifier = modifier,
-    backgroundColor = MaterialTheme.colors.primaryVariant,
+    backgroundColor = MaterialTheme.colors.primary,
   ) {
     SearchTextField(
       searchText = searchText(),
@@ -64,6 +64,10 @@ private fun SearchTextField(
     onValueChange = {
       onEvent(HomeEvent.OnSearchUpdated(it))
     },
+    textStyle = MaterialTheme.typography.body1.copy(
+      color = MaterialTheme.colors.onPrimary,
+    ),
+    cursorBrush = SolidColor(MaterialTheme.colors.onPrimary),
     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
     keyboardActions = KeyboardActions(
       onSearch = {
@@ -117,7 +121,7 @@ private fun SearchText(
         Text(
           text = stringResource(id = R.string.home_screen_search_field_hint),
           style = MaterialTheme.typography.body1,
-          color = Color.White,
+          color = MaterialTheme.colors.onPrimary,
         )
       },
     )
@@ -137,7 +141,7 @@ private fun SearchIcon(
   Icon(
     imageVector = Icons.Default.Search,
     contentDescription = contentDescription,
-    tint = Color.White,
+    tint = MaterialTheme.colors.onPrimary,
     modifier = Modifier
       .padding(8.dp)
       .size(24.dp),
@@ -157,13 +161,13 @@ private fun SearchClearIcon(
       }
       .padding(8.dp)
       .clip(CircleShape)
-      .background(Color.DarkGray)
+      .background(MaterialTheme.colors.onPrimary)
       .size(20.dp),
   ) {
     Icon(
       imageVector = Icons.Default.Clear,
       contentDescription = contentDescription,
-      tint = Color.White,
+      tint = MaterialTheme.colors.primary,
       modifier = Modifier
         .align(Alignment.Center)
         .padding(2.dp),

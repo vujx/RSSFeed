@@ -13,3 +13,6 @@ SELECT * FROM articleEntity WHERE channelLink = ? ORDER BY pubDate DESC;
 
 insertArticle:
 INSERT OR REPLACE INTO articleEntity VALUES (?, ?, ?, ?, ?, ?);
+
+deleteArticlesByChannelLink:
+DELETE FROM articleEntity WHERE channelLink = ?;
