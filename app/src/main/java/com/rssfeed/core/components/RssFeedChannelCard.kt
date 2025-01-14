@@ -167,6 +167,6 @@ private fun ChannelIcon(
     contentDescription = contentDescription,
     modifier = modifier
       .padding(8.dp)
-      .size(16.dp),
+      .size(18.dp),
   )
 }
