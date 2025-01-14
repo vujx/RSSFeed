@@ -88,9 +88,9 @@ fun FavoritesScreen(
         if (state.favoriteItems.isEmpty() && !state.isLoading) {
           item {
             RssFeedEmptyListScreen(
-              title = stringResource(id = R.string.articles_screen_empty_articles_list_title),
-              description = stringResource(id = R.string.articles_screen_empty_articles_list_description),
-              contentDescription = stringResource(id = R.string.articles_screen_search_icon_content_description),
+              title = stringResource(id = R.string.favorites_screen_empty_favorites_list_title),
+              description = stringResource(id = R.string.favorites_screen_empty_favorites_list_description),
+              contentDescription = stringResource(id = R.string.favorites_screen_favorite_icon_content_description),
               imageVector = Icons.Default.Favorite,
               modifier = Modifier
                 .fillParentMaxWidth()
