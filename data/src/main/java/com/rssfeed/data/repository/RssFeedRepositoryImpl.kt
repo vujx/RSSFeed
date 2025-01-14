@@ -74,9 +74,9 @@ class RssFeedRepositoryImpl(
   override fun observeArticlesByChannelLink(channelLink: String): Flow<List<ArticleItem>> =
     articleDao.observeArticlesByChannelLink(channelLink).map { it.toArticleItems() }
 
-  override suspend fun syncAndGetUpdatedSubscribedChannelTitles(): List<String> =
-    coroutineScope<List<String>> {
-      val updatedSubscribedChannelTitles = mutableListOf<String>()
+  override suspend fun syncAndGetUpdatedSubscribedChannels(): List<ChannelItem> =
+    coroutineScope<List<ChannelItem>> {
+      val updatedSubscribedChannels = mutableListOf<ChannelItem>()
 
       channelDao.getChannels().map { channel ->
         async {
@@ -86,7 +86,7 @@ class RssFeedRepositoryImpl(
             if (rssFeed.channel?.lastBuildDate != channel.lastBuildDate) {
               rssFeed.channel?.toChannelEntity(channel.rssFeedUrl)?.let { channelEntity ->
                 if (channelEntity.isSubscribed == 1L) {
-                  updatedSubscribedChannelTitles.add(channelEntity.title)
+                  updatedSubscribedChannels.add(channelEntity.toChannelItem())
                 }
 
                 channelDao.insertChannel(channelEntity, channelEntity.link)
@@ -103,6 +103,6 @@ class RssFeedRepositoryImpl(
         }
       }.awaitAll()
 
-      return@coroutineScope updatedSubscribedChannelTitles
+      return@coroutineScope updatedSubscribedChannels
     }
 }
