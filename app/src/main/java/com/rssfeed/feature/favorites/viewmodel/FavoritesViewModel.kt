@@ -10,6 +10,7 @@ import com.rssfeed.core.dictionary.Dictionary
 import com.rssfeed.core.navigation.NavigationEvent
 import com.rssfeed.core.navigation.Navigator
 import com.rssfeed.di.APP_NAVIGATOR_QUALIFIER
+import com.rssfeed.domain.usecase.IsNotificationPermissionGranted
 import com.rssfeed.domain.usecase.ObserveFavoriteChannels
 import com.rssfeed.domain.usecase.ToggleFavoriteChannel
 import com.rssfeed.domain.usecase.ToggleSubscribedChannel
@@ -35,6 +36,7 @@ class FavoritesViewModel(
   private val dictionary: Dictionary,
   private val toggleFavoriteChannel: ToggleFavoriteChannel,
   private val toggleSubscribedChannel: ToggleSubscribedChannel,
+  private val isNotificationPermissionGranted: IsNotificationPermissionGranted,
 ) : BaseViewModel<FavoritesEvent>(), KoinComponent {
 
   private val navigator: Navigator by inject(named(APP_NAVIGATOR_QUALIFIER))
@@ -107,10 +109,18 @@ class FavoritesViewModel(
     link: String,
     isSubscribed: Boolean,
   ) = viewModelScope.launch {
-    if (toggleSubscribedChannel(link, isSubscribed).not()) {
-      val failedToggleSubscribedMessage =
-        dictionary.getString(R.string.favorites_screen_failed_toggle_subscribed_channel_error_message)
-      _viewEffect.send(HomeViewEffect.ErrorOccurred(failedToggleSubscribedMessage))
+    if (isNotificationPermissionGranted()) {
+      if (toggleSubscribedChannel(link, isSubscribed).not()) {
+        val failedToggleSubscribedMessage =
+          dictionary.getString(R.string.favorites_screen_failed_toggle_subscribed_channel_error_message)
+        _viewEffect.send(HomeViewEffect.ErrorOccurred(failedToggleSubscribedMessage))
+      }
+    } else {
+      _viewEffect.send(
+        HomeViewEffect.ErrorOccurred(
+          errorMessage = dictionary.getString(R.string.favorites_screen_notification_error_message),
+        ),
+      )
     }
   }
 }

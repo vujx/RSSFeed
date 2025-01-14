@@ -16,6 +16,7 @@
     <string name="home_screen_failed_delete_channel_error_message">Failed to delete the channel. Please try again.</string>
     <string name="home_screen_failed_toggle_favorite_channel_error_message">Failed to update the favorite channel. Please try again.</string>
     <string name="home_screen_failed_toggle_subscribed_channel_error_message">Failed to update the subscribed channel. Please try again.</string>
+    <string name="home_screen_notification_error_message">"To use this app's functionalities, you need to give us the permission. If it doesn't work, then you'll have to do it from the settings."</string>
 
     <!-- Favorites -->
     <string name="favorites_screen_bottom_navigation_title">Favorites</string>
@@ -25,6 +26,7 @@
     <string name="favorites_screen_empty_favorites_list_title">No favorite feeds yet</string>
     <string name="favorites_screen_empty_favorites_list_description">Mark feeds as favorites to quickly access them here.</string>
     <string name="favorites_screen_favorite_icon_content_description">Mark as favorite</string>
+    <string name="favorites_screen_notification_error_message">"To use this app's functionalities, you need to give us the permission. If it doesn't work, then you'll have to do it from the settings."</string>
 
     <!-- Articles -->
     <string name="articles_screen_top_bar_title">Articles</string>

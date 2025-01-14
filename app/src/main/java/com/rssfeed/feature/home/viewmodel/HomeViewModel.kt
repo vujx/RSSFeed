@@ -13,6 +13,7 @@ import com.rssfeed.core.navigation.Navigator
 import com.rssfeed.di.APP_NAVIGATOR_QUALIFIER
 import com.rssfeed.domain.usecase.AddRssFeed
 import com.rssfeed.domain.usecase.DeleteChannel
+import com.rssfeed.domain.usecase.IsNotificationPermissionGranted
 import com.rssfeed.domain.usecase.ObserveChannels
 import com.rssfeed.domain.usecase.ToggleFavoriteChannel
 import com.rssfeed.domain.usecase.ToggleSubscribedChannel
@@ -43,6 +44,7 @@ class HomeViewModel(
   private val deleteChannels: DeleteChannel,
   private val toggleFavoriteChannel: ToggleFavoriteChannel,
   private val toggleSubscribedChannel: ToggleSubscribedChannel,
+  private val isNotificationPermissionGranted: IsNotificationPermissionGranted,
 ) : BaseViewModel<HomeEvent>(), KoinComponent {
 
   private val navigator: Navigator by inject(named(APP_NAVIGATOR_QUALIFIER))
@@ -112,7 +114,8 @@ class HomeViewModel(
         _viewEffect.send(HomeViewEffect.ErrorOccurred(errorMessageMapper(it)))
       }
     } else {
-      val validationUrlErrorMessage = dictionary.getString(R.string.home_screen_validation_url_error)
+      val validationUrlErrorMessage =
+        dictionary.getString(R.string.home_screen_validation_url_error)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(validationUrlErrorMessage))
     }
     isLoading.update { false }
@@ -141,10 +144,18 @@ class HomeViewModel(
     link: String,
     isSubscribed: Boolean,
   ) = viewModelScope.launch {
-    if (toggleSubscribedChannel(link, isSubscribed).not()) {
-      val failedToggleSubscribedMessage =
-        dictionary.getString(R.string.home_screen_failed_toggle_subscribed_channel_error_message)
-      _viewEffect.send(HomeViewEffect.ErrorOccurred(failedToggleSubscribedMessage))
+    if (isNotificationPermissionGranted()) {
+      if (toggleSubscribedChannel(link, isSubscribed).not()) {
+        val failedToggleSubscribedMessage =
+          dictionary.getString(R.string.home_screen_failed_toggle_subscribed_channel_error_message)
+        _viewEffect.send(HomeViewEffect.ErrorOccurred(failedToggleSubscribedMessage))
+      }
+    } else {
+      _viewEffect.send(
+        HomeViewEffect.ErrorOccurred(
+          errorMessage = dictionary.getString(R.string.home_screen_notification_error_message),
+        ),
+      )
     }
   }
 }
