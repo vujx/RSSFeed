@@ -26,6 +26,13 @@
     <string name="favorites_screen_empty_favorites_list_description">Mark feeds as favorites to quickly access them here.</string>
     <string name="favorites_screen_favorite_icon_content_description">Mark as favorite</string>
 
+    <!-- Articles -->
+    <string name="articles_screen_top_bar_title">Articles</string>
+    <string name="articles_screen_empty_articles_list_title">No articles available</string>
+    <string name="articles_screen_empty_articles_list_description">Check back later to see if new articles are available.</string>
+    <string name="articles_screen_search_icon_content_description">Search icon</string>
+    <string name="articles_screen_back_icon_content_description">Back icon</string>
+
     <!-- ErrorMessage -->
     <string name="unknown_error_message">An unexpected error occurred. Please try again later.</string>
     <string name="connectivity_error_message">No internet connection. Please check your network and try again.</string>

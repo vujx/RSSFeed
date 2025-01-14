@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
           ) { backStackEntry ->
             val link = backStackEntry.arguments?.getString(CHANNEL_LINK_PARAM)
               ?: error("$CHANNEL_LINK_PARAM was not provided to articleRoute")
-            ArticlesScreen()
+            ArticlesScreen(link)
           }
         }
       }
