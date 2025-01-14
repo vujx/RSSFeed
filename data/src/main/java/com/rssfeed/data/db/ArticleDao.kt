@@ -7,5 +7,7 @@ interface ArticleDao {
 
   suspend fun insertArticle(articleEntity: ArticleEntity, channelLink: String)
 
+  suspend fun deleteArticlesByChannelLink(channelLink: String)
+
   fun observeArticlesByChannelLink(channelLink: String): Flow<List<ArticleEntity>>
 }

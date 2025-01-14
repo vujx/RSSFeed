@@ -1,5 +1,6 @@
 package com.rssfeed.feature.articles.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.rssfeed.core.base.BaseViewModel
 import com.rssfeed.core.base.TIMEOUT_DELAY
@@ -57,6 +58,7 @@ class ArticlesViewModel(
     isLoading.update { true }
     observeArticles(channelLink).collectLatest { articles ->
       articleItems.update { articles.toItems() }
+      Log.d("TOMII DA VIDIM", articles.size.toString())
       isLoading.update { false }
     }
   }
