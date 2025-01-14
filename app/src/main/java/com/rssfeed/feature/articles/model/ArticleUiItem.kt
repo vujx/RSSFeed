@@ -1,5 +1,6 @@
 package com.rssfeed.feature.articles.model
 
+import androidx.core.text.HtmlCompat
 import com.rssfeed.domain.model.ArticleItem
 
 data class ArticleUiItem(
@@ -14,10 +15,14 @@ fun List<ArticleItem>.toItems() = map { articleItem ->
   with(articleItem) {
     ArticleUiItem(
       title = title.trim(),
-      description = description.trim(),
+      description = description.getTextFromHtml().trim(),
       imageUrl = imageUrl,
       link = link,
       pubDate = pubDate,
     )
   }
+}
+
+private fun String.getTextFromHtml(): String {
+  return HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
 }
