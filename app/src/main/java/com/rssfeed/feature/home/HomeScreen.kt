@@ -93,8 +93,12 @@ fun HomeScreen(
             )
           }
         } else {
-          items(state.homeItems) { homeItem ->
+          items(
+            items = state.homeItems,
+            key = { homeItem -> homeItem.channelLink },
+          ) { homeItem ->
             RssFeedChannelCard(
+              modifier = Modifier.animateItem(),
               item = homeItem,
               onCardClick = {
                 viewModel.onEvent(HomeEvent.OnItemClicked(homeItem.channelLink))

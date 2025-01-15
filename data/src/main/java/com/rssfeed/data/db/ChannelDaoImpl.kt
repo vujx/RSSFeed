@@ -54,4 +54,8 @@ class ChannelDaoImpl(
 
   override fun observeFavoriteChannels() =
     channelQueries.getFavoriteChannels().asFlow().mapToList(dispatchers.io)
+
+  override suspend fun doesChannelExists(url: String): Boolean = channelQueries.transactionWithResult {
+    channelQueries.doesChannelExists(url).executeAsOne()
+  }
 }

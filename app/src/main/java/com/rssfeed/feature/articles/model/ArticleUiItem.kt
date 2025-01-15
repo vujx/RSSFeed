@@ -24,5 +24,10 @@ fun List<ArticleItem>.toItems() = map { articleItem ->
 }
 
 private fun String.getTextFromHtml(): String {
-  return HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+  return HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_LEGACY)
+    .toString()
+    .replace('\n', ' ')
+    .replace('\u00A0', ' ') // Non-breaking space
+    .replace('\uFFFC', ' ') // Object replacement character
+    .trim()
 }

@@ -22,7 +22,11 @@ data class Channel(
   val articles: List<Article>?,
 ) {
 
-  fun toChannelEntity(rssFeedUrl: String): ChannelEntity? {
+  fun toChannelEntity(
+    rssFeedUrl: String,
+    isFavorite: Long = 0L,
+    isSubscribed: Long = 0L,
+  ): ChannelEntity? {
     if (link.isNullOrBlank()) return null
 
     return ChannelEntity(
@@ -32,8 +36,8 @@ data class Channel(
       imageUrl = image?.url.orEmpty(),
       lastBuildDate = lastBuildDate.orEmpty(),
       rssFeedUrl = rssFeedUrl,
-      isFavorite = 0,
-      isSubscribed = 0,
+      isFavorite = isFavorite,
+      isSubscribed = isSubscribed,
     )
   }
 }

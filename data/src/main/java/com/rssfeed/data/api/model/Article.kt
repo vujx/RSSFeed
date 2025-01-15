@@ -30,7 +30,7 @@ data class Article(
       description = description.orEmpty(),
       link = link,
       imageUrl = media?.url.orEmpty(),
-      pubDate = formatPubDate(pubDate.orEmpty()),
+      pubDate = pubDate.orEmpty().formatPubDate(),
       channelLink = channelLink,
     )
   }
@@ -42,12 +42,12 @@ data class MediaThumbnail(
   val url: String?,
 )
 
-private fun formatPubDate(dateString: String): String {
+fun String.formatPubDate(): String {
   val inputFormat = SimpleDateFormat(INPUT_DATE_PATTERN, Locale.ENGLISH)
   val outputFormat = SimpleDateFormat(OUTPUT_DATE_PATTERN, Locale.ENGLISH)
 
   return runCatching {
-    inputFormat.parse(dateString)?.let { outputFormat.format(it) }
+    inputFormat.parse(this)?.let { outputFormat.format(it) }
   }.getOrNull().orEmpty()
 }
 

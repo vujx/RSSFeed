@@ -10,4 +10,6 @@ interface ArticleDao {
   suspend fun deleteArticlesByChannelLink(channelLink: String)
 
   fun observeArticlesByChannelLink(channelLink: String): Flow<List<ArticleEntity>>
+
+  suspend fun getLatestPubDateByChannelLink(channelLink: String): String?
 }

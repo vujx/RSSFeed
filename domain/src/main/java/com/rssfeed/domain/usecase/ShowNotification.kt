@@ -8,7 +8,6 @@ import android.net.Uri
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import com.rssfeed.domain.R
-import kotlin.random.Random
 
 class ShowNotification(
   private val context: Context,
@@ -24,7 +23,7 @@ class ShowNotification(
       body = body,
       uri = uri,
     )
-    createNotificationManager(notificationBuilder)
+    createNotificationManager(notificationBuilder, uri)
   }
 
   private fun createNotificationBuilder(
@@ -37,6 +36,7 @@ class ShowNotification(
       .setContentText(body)
       .setSmallIcon(R.drawable.ic_notification)
       .setContentIntent(getContentIntent(uri))
+      .setAutoCancel(true)
   }
 
   private fun getContentIntent(uri: String): PendingIntent? {
@@ -55,9 +55,10 @@ class ShowNotification(
 
   private fun createNotificationManager(
     notificationBuilder: NotificationCompat.Builder,
+    notificationId: String,
   ) {
     val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    notificationManager.notify(Random.nextInt(), notificationBuilder.build())
+    notificationManager.notify(notificationId.hashCode(), notificationBuilder.build())
   }
 }
 

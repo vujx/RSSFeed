@@ -92,6 +92,7 @@ fun ArticlesScreen(
         } else {
           items(state.articleItems) { articleItem ->
             ArticleItemCard(
+              modifier = Modifier.animateItem(),
               articleItem = articleItem,
               onEvent = viewModel::onEvent,
             )

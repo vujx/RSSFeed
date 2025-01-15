@@ -26,3 +26,8 @@ UPDATE channelEntity SET isFavorite = ? WHERE link = ?;
 
 toggleSubscribedChannel:
 UPDATE channelEntity SET isSubscribed = ? WHERE link = ?;
+
+doesChannelExists:
+SELECT EXISTS (
+    SELECT 1 FROM channelEntity WHERE rssFeedUrl = ?
+) AS rssFeedExists;

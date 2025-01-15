@@ -10,6 +10,7 @@
     <string name="home_screen_clear_icon_content_description">Clear icon</string>
     <string name="home_screen_search_action_button_text">Search</string>
     <string name="home_screen_validation_url_error">Please enter a valid RSS feed URL (must start with http:// or https:// and contain .rss, .xml, or /feed).</string>
+    <string name="home_screen_channel_exists_error">This feed is already added to your list. Please take a look!</string>
     <string name="home_screen_favorite_icon_content_description">Favorite Icon</string>
     <string name="home_screen_notification_icon_content_description">Notification Icon</string>
     <string name="home_screen_delete_icon_content_description">Notification Icon</string>

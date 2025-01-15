@@ -21,4 +21,6 @@ interface ChannelDao {
   suspend fun toggleSubscribedChannel(link: String, isSubscribed: Long)
 
   fun observeFavoriteChannels(): Flow<List<ChannelEntity>>
+
+  suspend fun doesChannelExists(url: String): Boolean
 }
