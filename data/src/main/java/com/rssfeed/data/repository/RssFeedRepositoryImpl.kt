@@ -4,6 +4,7 @@ import arrow.core.Either
 import arrow.core.left
 import com.rssfeed.data.api.ApiService
 import com.rssfeed.data.api.model.RssFeed
+import com.rssfeed.data.api.model.formatPubDate
 import com.rssfeed.data.api.safeApiCall
 import com.rssfeed.data.db.ArticleDao
 import com.rssfeed.data.db.ChannelDao
@@ -116,7 +117,7 @@ class RssFeedRepositoryImpl(
     val latestArticlePubDate =
       articleDao.getLatestPubDateByChannelLink(rssFeed.channel?.link.orEmpty()).orEmpty()
     return rssFeed.channel?.articles?.any { article ->
-      article.pubDate?.let { it > latestArticlePubDate } ?: false
+      article.pubDate?.let { it.formatPubDate() > latestArticlePubDate } ?: false
     } ?: false
   }
 }
