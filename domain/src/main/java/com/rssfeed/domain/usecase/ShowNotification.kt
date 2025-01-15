@@ -8,6 +8,7 @@ import android.net.Uri
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import com.rssfeed.domain.R
+import kotlin.random.Random
 
 class ShowNotification(
   private val context: Context,
@@ -56,11 +57,10 @@ class ShowNotification(
     notificationBuilder: NotificationCompat.Builder,
   ) {
     val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
+    notificationManager.notify(Random.nextInt(), notificationBuilder.build())
   }
 }
 
 const val CHANNEL_ID = "contentFeedId"
 const val CHANNEL_NAME = "ContentFeedNotifications"
 const val REQUEST_ID = 1234
-const val NOTIFICATION_ID = 1
