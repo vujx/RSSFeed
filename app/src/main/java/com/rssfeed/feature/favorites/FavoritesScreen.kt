@@ -96,7 +96,10 @@ fun FavoritesScreen(
             )
           }
         } else {
-          items(state.favoriteItems) { homeItem ->
+          items(
+            items = state.favoriteItems,
+            key = { favoriteItem -> favoriteItem.channelLink },
+          ) { homeItem ->
             RssFeedChannelCard(
               modifier = Modifier.animateItem(),
               item = homeItem,
