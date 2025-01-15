@@ -3,12 +3,12 @@ RSSFeed is a simple and intuitive app designed to manage and browse RSS feeds ef
 
 ## Features
 
-### RSS Feed List
+### Home Screen
 You can add or remove feeds, mark them as favorites, and subscribe to receive notifications when new articles are available.
 
 <img src="images/home_screen.png" alt="search screen" height="600"/>
 
-### RSS Feed List
+### Favorites Screen
 View all your favorite feeds in one place.
 
 <img src="images/favorites_screen.png" alt="search screen" height="600"/>
