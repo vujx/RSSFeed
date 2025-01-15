@@ -3,11 +3,9 @@ package com.rssfeed.data.repository
 import arrow.core.Either
 import arrow.core.left
 import com.rssfeed.data.api.ApiService
-import com.rssfeed.data.api.model.Channel
 import com.rssfeed.data.api.safeApiCall
 import com.rssfeed.data.db.ArticleDao
 import com.rssfeed.data.db.ChannelDao
-import com.rssfeed.data.schema.ChannelEntity
 import com.rssfeed.domain.error.RssFeedError
 import com.rssfeed.domain.error.RssFeedError.UnknownError
 import com.rssfeed.domain.model.ArticleItem
@@ -31,7 +29,13 @@ class RssFeedRepositoryImpl(
     val channelEntity = rssFeed.channel?.toChannelEntity(url)
       ?: return UnknownError.left()
 
-    updateChannelAndArticles(rssFeed.channel, channelEntity)
+    channelDao.insertChannel(channelEntity, url)
+
+    rssFeed.channel.articles?.mapNotNull { article ->
+      article.toArticleEntity(channelEntity.link)
+    }?.forEach { articleEntity ->
+      articleDao.insertArticle(articleEntity, channelEntity.link)
+    }
   }
 
   override fun observeChannels(): Flow<List<ChannelItem>> =
@@ -78,13 +82,24 @@ class RssFeedRepositoryImpl(
         async {
           safeApiCall {
             apiService.addRssFeed(channel.rssFeedUrl)
-          }.map { rssFeed ->
+          }.onRight { rssFeed ->
             if (rssFeed.channel?.lastBuildDate != channel.lastBuildDate) {
               if (channel.isSubscribed == 1L) {
                 updatedSubscribedChannels.add(channel.toChannelItem())
               }
-              rssFeed.channel?.toChannelEntity(channel.rssFeedUrl)?.let { channelEntity ->
-                updateChannelAndArticles(rssFeed.channel, channelEntity)
+              rssFeed.channel?.toChannelEntity(
+                rssFeedUrl = channel.rssFeedUrl,
+                isFavorite = channel.isFavorite,
+                isSubscribed = channel.isSubscribed,
+              )?.let { channelEntity ->
+                channelDao.insertChannel(channelEntity, channel.rssFeedUrl)
+                articleDao.deleteArticlesByChannelLink(channelEntity.link)
+
+                rssFeed.channel.articles?.mapNotNull { article ->
+                  article.toArticleEntity(channelEntity.link)
+                }?.forEach { articleEntity ->
+                  articleDao.insertArticle(articleEntity, channelEntity.link)
+                }
               }
             }
           }
@@ -94,17 +109,5 @@ class RssFeedRepositoryImpl(
       return@coroutineScope updatedSubscribedChannels
     }
 
-  private suspend fun updateChannelAndArticles(
-    channel: Channel,
-    channelEntity: ChannelEntity,
-  ) {
-    channelDao.insertChannel(channelEntity, channelEntity.link)
-    articleDao.deleteArticlesByChannelLink(channelEntity.link)
-
-    channel.articles?.mapNotNull { article ->
-      article.toArticleEntity(channelEntity.link)
-    }?.forEach { articleEntity ->
-      articleDao.insertArticle(articleEntity, channelEntity.link)
-    }
-  }
+  override suspend fun doesChannelExits(url: String) = channelDao.doesChannelExists(url)
 }
