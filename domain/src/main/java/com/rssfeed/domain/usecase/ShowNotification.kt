@@ -64,4 +64,4 @@ class ShowNotification(
 
 const val CHANNEL_ID = "contentFeedId"
 const val CHANNEL_NAME = "ContentFeedNotifications"
-const val REQUEST_ID = 1234
+private const val REQUEST_ID = 1234
