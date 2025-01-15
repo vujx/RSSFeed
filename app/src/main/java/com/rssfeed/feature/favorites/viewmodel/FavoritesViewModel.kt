@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -78,11 +79,10 @@ class FavoritesViewModel(
   }
 
   private fun observeChannels() = viewModelScope.launch {
-    isLoading.update { true }
     observeFavoriteChannels()
+      .onEach { isLoading.update { false } }
       .collectLatest { channels ->
         favoriteItems.update { channels.toItems() }
-        isLoading.update { false }
       }
   }
 
@@ -109,18 +109,19 @@ class FavoritesViewModel(
     link: String,
     isSubscribed: Boolean,
   ) = viewModelScope.launch {
-    if (isNotificationPermissionGranted()) {
-      if (toggleSubscribedChannel(link, isSubscribed).not()) {
-        val failedToggleSubscribedMessage =
-          dictionary.getString(R.string.favorites_screen_failed_toggle_subscribed_channel_error_message)
-        _viewEffect.send(HomeViewEffect.ErrorOccurred(failedToggleSubscribedMessage))
-      }
-    } else {
+    if (isNotificationPermissionGranted().not()) {
       _viewEffect.send(
         HomeViewEffect.ErrorOccurred(
           errorMessage = dictionary.getString(R.string.favorites_screen_notification_error_message),
         ),
       )
+      return@launch
+    }
+
+    if (toggleSubscribedChannel(link, isSubscribed).not()) {
+      val failedToggleSubscribedMessage =
+        dictionary.getString(R.string.favorites_screen_failed_toggle_subscribed_channel_error_message)
+      _viewEffect.send(HomeViewEffect.ErrorOccurred(failedToggleSubscribedMessage))
     }
   }
 }

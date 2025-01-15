@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -54,11 +55,11 @@ class ArticlesViewModel(
   }
 
   private fun handleObservingArticles(channelLink: String) = viewModelScope.launch {
-    isLoading.update { true }
-    observeArticles(channelLink).collectLatest { articles ->
-      articleItems.update { articles.toItems() }
-      isLoading.update { false }
-    }
+    observeArticles(channelLink)
+      .onEach { isLoading.update { false } }
+      .collectLatest { articles ->
+        articleItems.update { articles.toItems() }
+      }
   }
 
   private fun handleOnBackIconClicked() = viewModelScope.launch {
