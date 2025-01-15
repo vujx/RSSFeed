@@ -3,6 +3,7 @@ package com.rssfeed.data.repository
 import arrow.core.Either
 import arrow.core.left
 import com.rssfeed.data.api.ApiService
+import com.rssfeed.data.api.model.RssFeed
 import com.rssfeed.data.api.safeApiCall
 import com.rssfeed.data.db.ArticleDao
 import com.rssfeed.data.db.ChannelDao
@@ -83,7 +84,7 @@ class RssFeedRepositoryImpl(
           safeApiCall {
             apiService.addRssFeed(channel.rssFeedUrl)
           }.onRight { rssFeed ->
-            if (rssFeed.channel?.lastBuildDate != channel.lastBuildDate) {
+            if (checkIfThereAreNewArticles(rssFeed)) {
               if (channel.isSubscribed == 1L) {
                 updatedSubscribedChannels.add(channel.toChannelItem())
               }
@@ -110,4 +111,12 @@ class RssFeedRepositoryImpl(
     }
 
   override suspend fun doesChannelExits(url: String) = channelDao.doesChannelExists(url)
+
+  private suspend fun checkIfThereAreNewArticles(rssFeed: RssFeed): Boolean {
+    val latestArticlePubDate =
+      articleDao.getLatestPubDateByChannelLink(rssFeed.channel?.link.orEmpty()).orEmpty()
+    return rssFeed.channel?.articles?.any { article ->
+      article.pubDate?.let { it > latestArticlePubDate } ?: false
+    } ?: false
+  }
 }

@@ -33,4 +33,9 @@ class ArticleDaoImpl(
 
   override fun observeArticlesByChannelLink(channelLink: String): Flow<List<ArticleEntity>> =
     articleQueries.getArticlesByChannelLink(channelLink).asFlow().mapToList(dispatchers.io)
+
+  override suspend fun getLatestPubDateByChannelLink(channelLink: String): String? =
+    articleQueries.transactionWithResult {
+      articleQueries.getLatestPubDateByChannelLink(channelLink).executeAsOneOrNull()
+    }
 }
