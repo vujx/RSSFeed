@@ -118,6 +118,7 @@ class HomeViewModel(
       val validationUrlErrorMessage =
         dictionary.getString(R.string.home_screen_validation_url_error)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(validationUrlErrorMessage))
+      isLoading.update { false }
       return@launch
     }
 
