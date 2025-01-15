@@ -23,4 +23,6 @@ interface RssFeedRepository {
   fun observeArticlesByChannelLink(channelLink: String): Flow<List<ArticleItem>>
 
   suspend fun syncAndGetUpdatedSubscribedChannels(): List<ChannelItem>
+
+  suspend fun doesChannelExits(url: String): Boolean
 }

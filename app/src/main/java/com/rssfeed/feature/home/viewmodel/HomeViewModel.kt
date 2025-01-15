@@ -13,6 +13,7 @@ import com.rssfeed.core.navigation.Navigator
 import com.rssfeed.di.APP_NAVIGATOR_QUALIFIER
 import com.rssfeed.domain.usecase.AddRssFeed
 import com.rssfeed.domain.usecase.DeleteChannel
+import com.rssfeed.domain.usecase.DoesChannelExists
 import com.rssfeed.domain.usecase.IsNotificationPermissionGranted
 import com.rssfeed.domain.usecase.ObserveChannels
 import com.rssfeed.domain.usecase.ToggleFavoriteChannel
@@ -45,6 +46,7 @@ class HomeViewModel(
   private val toggleFavoriteChannel: ToggleFavoriteChannel,
   private val toggleSubscribedChannel: ToggleSubscribedChannel,
   private val isNotificationPermissionGranted: IsNotificationPermissionGranted,
+  private val doesChannelExists: DoesChannelExists,
 ) : BaseViewModel<HomeEvent>(), KoinComponent {
 
   private val navigator: Navigator by inject(named(APP_NAVIGATOR_QUALIFIER))
@@ -109,15 +111,28 @@ class HomeViewModel(
 
   private fun handleOnSearchButtonClick() = viewModelScope.launch {
     isLoading.update { true }
-    if (validator(searchText.value)) {
-      addRssFeed(searchText.value).onLeft {
-        _viewEffect.send(HomeViewEffect.ErrorOccurred(errorMessageMapper(it)))
-      }
-    } else {
+
+    val url = searchText.value
+
+    if (validator(url).not()) {
       val validationUrlErrorMessage =
         dictionary.getString(R.string.home_screen_validation_url_error)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(validationUrlErrorMessage))
+      return@launch
     }
+
+    if (doesChannelExists(url)) {
+      val validationUrlErrorMessage =
+        dictionary.getString(R.string.home_screen_channel_exists_error)
+      _viewEffect.send(HomeViewEffect.ErrorOccurred(validationUrlErrorMessage))
+    } else {
+      addRssFeed(url).onLeft {
+        _viewEffect.send(HomeViewEffect.ErrorOccurred(errorMessageMapper(it)))
+      }.onRight {
+        searchText.update { "" }
+      }
+    }
+
     isLoading.update { false }
   }
 
