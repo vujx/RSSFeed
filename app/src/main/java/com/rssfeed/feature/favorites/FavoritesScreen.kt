@@ -98,6 +98,7 @@ fun FavoritesScreen(
         } else {
           items(state.favoriteItems) { homeItem ->
             RssFeedChannelCard(
+              modifier = Modifier.animateItem(),
               item = homeItem,
               onCardClick = {
                 viewModel.onEvent(FavoritesEvent.OnItemClicked(homeItem.channelLink))
