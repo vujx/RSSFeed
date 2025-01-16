@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -93,11 +94,10 @@ class HomeViewModel(
   }
 
   private fun observeSavedChannels() = viewModelScope.launch {
-    isLoading.update { true }
     observeChannels()
+      .onEach { isLoading.update { false } }
       .collectLatest { channels ->
         homeItems.update { channels.toItems() }
-        isLoading.update { false }
       }
   }
 
@@ -123,18 +123,19 @@ class HomeViewModel(
     }
 
     if (doesChannelExists(url)) {
-      val validationUrlErrorMessage =
+      val channelExistsErrorMessage =
         dictionary.getString(R.string.home_screen_channel_exists_error)
-      _viewEffect.send(HomeViewEffect.ErrorOccurred(validationUrlErrorMessage))
-    } else {
-      addRssFeed(url).onLeft {
-        _viewEffect.send(HomeViewEffect.ErrorOccurred(errorMessageMapper(it)))
-      }.onRight {
-        searchText.update { "" }
-      }
+      _viewEffect.send(HomeViewEffect.ErrorOccurred(channelExistsErrorMessage))
+      isLoading.update { false }
+      return@launch
     }
 
-    isLoading.update { false }
+    addRssFeed(url).onLeft {
+      _viewEffect.send(HomeViewEffect.ErrorOccurred(errorMessageMapper(it)))
+      isLoading.update { false }
+    }.onRight {
+      searchText.update { "" }
+    }
   }
 
   private fun handleOnDeleteIconClicked(link: String) = viewModelScope.launch {
@@ -160,18 +161,19 @@ class HomeViewModel(
     link: String,
     isSubscribed: Boolean,
   ) = viewModelScope.launch {
-    if (isNotificationPermissionGranted()) {
-      if (toggleSubscribedChannel(link, isSubscribed).not()) {
-        val failedToggleSubscribedMessage =
-          dictionary.getString(R.string.home_screen_failed_toggle_subscribed_channel_error_message)
-        _viewEffect.send(HomeViewEffect.ErrorOccurred(failedToggleSubscribedMessage))
-      }
-    } else {
+    if (isNotificationPermissionGranted().not()) {
       _viewEffect.send(
         HomeViewEffect.ErrorOccurred(
           errorMessage = dictionary.getString(R.string.home_screen_notification_error_message),
         ),
       )
+      return@launch
+    }
+
+    if (toggleSubscribedChannel(link, isSubscribed).not()) {
+      val failedToggleSubscribedMessage =
+        dictionary.getString(R.string.home_screen_failed_toggle_subscribed_channel_error_message)
+      _viewEffect.send(HomeViewEffect.ErrorOccurred(failedToggleSubscribedMessage))
     }
   }
 }

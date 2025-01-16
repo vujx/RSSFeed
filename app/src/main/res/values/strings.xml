@@ -9,7 +9,7 @@
     <string name="home_screen_search_field_hint">Search for feeds…</string>
     <string name="home_screen_clear_icon_content_description">Clear icon</string>
     <string name="home_screen_search_action_button_text">Search</string>
-    <string name="home_screen_validation_url_error">Please enter a valid RSS feed URL (must start with http:// or https:// and contain .rss, .xml, or /feed).</string>
+    <string name="home_screen_validation_url_error">Please enter a valid RSS feed URL (must start with http:// or https://).</string>
     <string name="home_screen_channel_exists_error">This feed is already added to your list. Please take a look!</string>
     <string name="home_screen_favorite_icon_content_description">Favorite Icon</string>
     <string name="home_screen_notification_icon_content_description">Notification Icon</string>
@@ -17,7 +17,7 @@
     <string name="home_screen_failed_delete_channel_error_message">Failed to delete the channel. Please try again.</string>
     <string name="home_screen_failed_toggle_favorite_channel_error_message">Failed to update the favorite channel. Please try again.</string>
     <string name="home_screen_failed_toggle_subscribed_channel_error_message">Failed to update the subscribed channel. Please try again.</string>
-    <string name="home_screen_notification_error_message">"To use this app's functionalities, you need to give us the permission. If it doesn't work, then you'll have to do it from the settings."</string>
+    <string name="home_screen_notification_error_message">"To use this app's functionalities, you need to give us the permission. enable notifications in your settings."</string>
 
     <!-- Favorites -->
     <string name="favorites_screen_bottom_navigation_title">Favorites</string>
