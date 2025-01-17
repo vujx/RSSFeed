@@ -1,6 +1,7 @@
 package com.rssfeed.feature.home.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import arrow.core.Either
 import com.rssfeed.R
 import com.rssfeed.core.base.BaseViewModel
 import com.rssfeed.core.base.ChannelUiItem
@@ -109,7 +110,7 @@ class HomeViewModel(
 
     val url = searchText.value
 
-    if (validator(url).not()) {
+    if (!validator(url)) {
       val validationUrlErrorMessage =
         dictionary.getString(R.string.home_screen_validation_url_error)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(validationUrlErrorMessage))
@@ -125,16 +126,17 @@ class HomeViewModel(
       return@launch
     }
 
-    addRssFeed(url).onLeft {
-      _viewEffect.send(HomeViewEffect.ErrorOccurred(errorMessageMapper(it)))
-      isLoading.update { false }
-    }.onRight {
-      searchText.update { "" }
+    when (val result = addRssFeed(url)) {
+      is Either.Left -> {
+        _viewEffect.send(HomeViewEffect.ErrorOccurred(errorMessageMapper(result.value)))
+        isLoading.update { false }
+      }
+      is Either.Right -> searchText.update { "" }
     }
   }
 
   private fun handleOnDeleteIconClicked(link: String) = viewModelScope.launch {
-    if (deleteChannels(link).not()) {
+    if (!deleteChannels(link)) {
       val failedDeleteChannelMessage =
         dictionary.getString(R.string.home_screen_failed_delete_channel_error_message)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(failedDeleteChannelMessage))
@@ -145,7 +147,7 @@ class HomeViewModel(
     link: String,
     isFavorite: Boolean,
   ) = viewModelScope.launch {
-    if (toggleFavoriteChannel(link, isFavorite).not()) {
+    if (!toggleFavoriteChannel(link, isFavorite)) {
       val failedToggleFavoriteMessage =
         dictionary.getString(R.string.home_screen_failed_toggle_favorite_channel_error_message)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(failedToggleFavoriteMessage))
@@ -156,7 +158,7 @@ class HomeViewModel(
     link: String,
     isSubscribed: Boolean,
   ) = viewModelScope.launch {
-    if (isNotificationPermissionGranted().not()) {
+    if (!isNotificationPermissionGranted()) {
       _viewEffect.send(
         HomeViewEffect.ErrorOccurred(
           errorMessage = dictionary.getString(R.string.home_screen_notification_error_message),
@@ -165,7 +167,7 @@ class HomeViewModel(
       return@launch
     }
 
-    if (toggleSubscribedChannel(link, isSubscribed).not()) {
+    if (!toggleSubscribedChannel(link, isSubscribed)) {
       val failedToggleSubscribedMessage =
         dictionary.getString(R.string.home_screen_failed_toggle_subscribed_channel_error_message)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(failedToggleSubscribedMessage))

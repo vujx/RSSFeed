@@ -93,7 +93,7 @@ class FavoritesViewModel(
     link: String,
     isFavorite: Boolean,
   ) = viewModelScope.launch {
-    if (toggleFavoriteChannel(link, isFavorite).not()) {
+    if (!toggleFavoriteChannel(link, isFavorite)) {
       val failedToggleFavoriteMessage =
         dictionary.getString(R.string.favorites_screen_failed_toggle_favorite_channel_error_message)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(failedToggleFavoriteMessage))
@@ -104,7 +104,7 @@ class FavoritesViewModel(
     link: String,
     isSubscribed: Boolean,
   ) = viewModelScope.launch {
-    if (isNotificationPermissionGranted().not()) {
+    if (!isNotificationPermissionGranted()) {
       _viewEffect.send(
         HomeViewEffect.ErrorOccurred(
           errorMessage = dictionary.getString(R.string.favorites_screen_notification_error_message),
@@ -113,7 +113,7 @@ class FavoritesViewModel(
       return@launch
     }
 
-    if (toggleSubscribedChannel(link, isSubscribed).not()) {
+    if (!toggleSubscribedChannel(link, isSubscribed)) {
       val failedToggleSubscribedMessage =
         dictionary.getString(R.string.favorites_screen_failed_toggle_subscribed_channel_error_message)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(failedToggleSubscribedMessage))
