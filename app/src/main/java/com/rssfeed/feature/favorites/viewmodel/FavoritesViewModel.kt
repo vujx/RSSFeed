@@ -9,7 +9,6 @@ import com.rssfeed.core.base.toItems
 import com.rssfeed.core.dictionary.Dictionary
 import com.rssfeed.core.navigation.NavigationEvent
 import com.rssfeed.core.navigation.Navigator
-import com.rssfeed.di.APP_NAVIGATOR_QUALIFIER
 import com.rssfeed.domain.usecase.IsNotificationPermissionGranted
 import com.rssfeed.domain.usecase.ObserveFavoriteChannels
 import com.rssfeed.domain.usecase.ToggleFavoriteChannel
@@ -28,9 +27,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import org.koin.core.qualifier.named
 
 class FavoritesViewModel(
   private val observeFavoriteChannels: ObserveFavoriteChannels,
@@ -38,9 +34,8 @@ class FavoritesViewModel(
   private val toggleFavoriteChannel: ToggleFavoriteChannel,
   private val toggleSubscribedChannel: ToggleSubscribedChannel,
   private val isNotificationPermissionGranted: IsNotificationPermissionGranted,
-) : BaseViewModel<FavoritesEvent>(), KoinComponent {
-
-  private val navigator: Navigator by inject(named(APP_NAVIGATOR_QUALIFIER))
+  private val navigator: Navigator,
+) : BaseViewModel<FavoritesEvent>() {
 
   private val favoriteItems = MutableStateFlow<List<ChannelUiItem>>(emptyList())
   private val isLoading = MutableStateFlow(true)

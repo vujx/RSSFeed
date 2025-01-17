@@ -10,7 +10,6 @@ import com.rssfeed.core.dictionary.Dictionary
 import com.rssfeed.core.mapper.ErrorMessageMapper
 import com.rssfeed.core.navigation.NavigationEvent
 import com.rssfeed.core.navigation.Navigator
-import com.rssfeed.di.APP_NAVIGATOR_QUALIFIER
 import com.rssfeed.domain.usecase.AddRssFeed
 import com.rssfeed.domain.usecase.DeleteChannel
 import com.rssfeed.domain.usecase.DoesChannelExists
@@ -33,9 +32,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import org.koin.core.qualifier.named
 
 class HomeViewModel(
   private val observeChannels: ObserveChannels,
@@ -48,9 +44,8 @@ class HomeViewModel(
   private val toggleSubscribedChannel: ToggleSubscribedChannel,
   private val isNotificationPermissionGranted: IsNotificationPermissionGranted,
   private val doesChannelExists: DoesChannelExists,
-) : BaseViewModel<HomeEvent>(), KoinComponent {
-
-  private val navigator: Navigator by inject(named(APP_NAVIGATOR_QUALIFIER))
+  private val navigator: Navigator,
+) : BaseViewModel<HomeEvent>() {
 
   private val searchText = MutableStateFlow("")
   private val homeItems = MutableStateFlow<List<ChannelUiItem>>(emptyList())
