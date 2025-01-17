@@ -8,6 +8,7 @@ import com.rssfeed.data.api.model.formatPubDate
 import com.rssfeed.data.api.safeApiCall
 import com.rssfeed.data.db.ArticleDao
 import com.rssfeed.data.db.ChannelDao
+import com.rssfeed.data.schema.ChannelEntity
 import com.rssfeed.domain.error.RssFeedError
 import com.rssfeed.domain.error.RssFeedError.UnknownError
 import com.rssfeed.domain.model.ArticleItem
@@ -89,20 +90,7 @@ class RssFeedRepositoryImpl(
               if (channel.isSubscribed == 1L) {
                 updatedSubscribedChannels.add(channel.toChannelItem())
               }
-              rssFeed.channel?.toChannelEntity(
-                rssFeedUrl = channel.rssFeedUrl,
-                isFavorite = channel.isFavorite,
-                isSubscribed = channel.isSubscribed,
-              )?.let { channelEntity ->
-                channelDao.insertChannel(channelEntity, channel.rssFeedUrl)
-                articleDao.deleteArticlesByChannelLink(channelEntity.link)
-
-                rssFeed.channel.articles?.mapNotNull { article ->
-                  article.toArticleEntity(channelEntity.link)
-                }?.forEach { articleEntity ->
-                  articleDao.insertArticle(articleEntity, channelEntity.link)
-                }
-              }
+              handleUpdatedChannel(channel, rssFeed)
             }
           }
         }
@@ -119,5 +107,32 @@ class RssFeedRepositoryImpl(
     return rssFeed.channel?.articles?.any { article ->
       article.pubDate?.let { it.formatPubDate() > latestArticlePubDate } ?: false
     } ?: false
+  }
+
+  private suspend fun handleUpdatedChannel(
+    channel: ChannelEntity,
+    rssFeed: RssFeed,
+  ) {
+    rssFeed.channel?.toChannelEntity(
+      rssFeedUrl = channel.rssFeedUrl,
+      isFavorite = channel.isFavorite,
+      isSubscribed = channel.isSubscribed,
+    )?.let { channelEntity ->
+      saveChannelAndArticles(channelEntity, rssFeed)
+    }
+  }
+
+  private suspend fun saveChannelAndArticles(
+    channelEntity: ChannelEntity,
+    rssFeed: RssFeed,
+  ) {
+    channelDao.insertChannel(channelEntity, channelEntity.rssFeedUrl)
+    articleDao.deleteArticlesByChannelLink(channelEntity.link)
+
+    rssFeed.channel?.articles?.mapNotNull { article ->
+      article.toArticleEntity(channelEntity.link)
+    }?.forEach { articleEntity ->
+      articleDao.insertArticle(articleEntity, channelEntity.link)
+    }
   }
 }

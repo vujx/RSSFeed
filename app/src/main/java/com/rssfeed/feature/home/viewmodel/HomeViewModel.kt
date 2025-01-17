@@ -1,6 +1,7 @@
 package com.rssfeed.feature.home.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import arrow.core.Either
 import com.rssfeed.R
 import com.rssfeed.core.base.BaseViewModel
 import com.rssfeed.core.base.ChannelUiItem
@@ -10,7 +11,6 @@ import com.rssfeed.core.dictionary.Dictionary
 import com.rssfeed.core.mapper.ErrorMessageMapper
 import com.rssfeed.core.navigation.NavigationEvent
 import com.rssfeed.core.navigation.Navigator
-import com.rssfeed.di.APP_NAVIGATOR_QUALIFIER
 import com.rssfeed.domain.usecase.AddRssFeed
 import com.rssfeed.domain.usecase.DeleteChannel
 import com.rssfeed.domain.usecase.DoesChannelExists
@@ -33,9 +33,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import org.koin.core.qualifier.named
 
 class HomeViewModel(
   private val observeChannels: ObserveChannels,
@@ -48,9 +45,8 @@ class HomeViewModel(
   private val toggleSubscribedChannel: ToggleSubscribedChannel,
   private val isNotificationPermissionGranted: IsNotificationPermissionGranted,
   private val doesChannelExists: DoesChannelExists,
-) : BaseViewModel<HomeEvent>(), KoinComponent {
-
-  private val navigator: Navigator by inject(named(APP_NAVIGATOR_QUALIFIER))
+  private val navigator: Navigator,
+) : BaseViewModel<HomeEvent>() {
 
   private val searchText = MutableStateFlow("")
   private val homeItems = MutableStateFlow<List<ChannelUiItem>>(emptyList())
@@ -114,7 +110,7 @@ class HomeViewModel(
 
     val url = searchText.value
 
-    if (validator(url).not()) {
+    if (!validator(url)) {
       val validationUrlErrorMessage =
         dictionary.getString(R.string.home_screen_validation_url_error)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(validationUrlErrorMessage))
@@ -130,16 +126,17 @@ class HomeViewModel(
       return@launch
     }
 
-    addRssFeed(url).onLeft {
-      _viewEffect.send(HomeViewEffect.ErrorOccurred(errorMessageMapper(it)))
-      isLoading.update { false }
-    }.onRight {
-      searchText.update { "" }
+    when (val result = addRssFeed(url)) {
+      is Either.Left -> {
+        _viewEffect.send(HomeViewEffect.ErrorOccurred(errorMessageMapper(result.value)))
+        isLoading.update { false }
+      }
+      is Either.Right -> searchText.update { "" }
     }
   }
 
   private fun handleOnDeleteIconClicked(link: String) = viewModelScope.launch {
-    if (deleteChannels(link).not()) {
+    if (!deleteChannels(link)) {
       val failedDeleteChannelMessage =
         dictionary.getString(R.string.home_screen_failed_delete_channel_error_message)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(failedDeleteChannelMessage))
@@ -150,7 +147,7 @@ class HomeViewModel(
     link: String,
     isFavorite: Boolean,
   ) = viewModelScope.launch {
-    if (toggleFavoriteChannel(link, isFavorite).not()) {
+    if (!toggleFavoriteChannel(link, isFavorite)) {
       val failedToggleFavoriteMessage =
         dictionary.getString(R.string.home_screen_failed_toggle_favorite_channel_error_message)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(failedToggleFavoriteMessage))
@@ -161,7 +158,7 @@ class HomeViewModel(
     link: String,
     isSubscribed: Boolean,
   ) = viewModelScope.launch {
-    if (isNotificationPermissionGranted().not()) {
+    if (!isNotificationPermissionGranted()) {
       _viewEffect.send(
         HomeViewEffect.ErrorOccurred(
           errorMessage = dictionary.getString(R.string.home_screen_notification_error_message),
@@ -170,7 +167,7 @@ class HomeViewModel(
       return@launch
     }
 
-    if (toggleSubscribedChannel(link, isSubscribed).not()) {
+    if (!toggleSubscribedChannel(link, isSubscribed)) {
       val failedToggleSubscribedMessage =
         dictionary.getString(R.string.home_screen_failed_toggle_subscribed_channel_error_message)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(failedToggleSubscribedMessage))

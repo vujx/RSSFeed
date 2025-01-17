@@ -9,7 +9,6 @@ import com.rssfeed.core.base.toItems
 import com.rssfeed.core.dictionary.Dictionary
 import com.rssfeed.core.navigation.NavigationEvent
 import com.rssfeed.core.navigation.Navigator
-import com.rssfeed.di.APP_NAVIGATOR_QUALIFIER
 import com.rssfeed.domain.usecase.IsNotificationPermissionGranted
 import com.rssfeed.domain.usecase.ObserveFavoriteChannels
 import com.rssfeed.domain.usecase.ToggleFavoriteChannel
@@ -28,9 +27,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import org.koin.core.qualifier.named
 
 class FavoritesViewModel(
   private val observeFavoriteChannels: ObserveFavoriteChannels,
@@ -38,9 +34,8 @@ class FavoritesViewModel(
   private val toggleFavoriteChannel: ToggleFavoriteChannel,
   private val toggleSubscribedChannel: ToggleSubscribedChannel,
   private val isNotificationPermissionGranted: IsNotificationPermissionGranted,
-) : BaseViewModel<FavoritesEvent>(), KoinComponent {
-
-  private val navigator: Navigator by inject(named(APP_NAVIGATOR_QUALIFIER))
+  private val navigator: Navigator,
+) : BaseViewModel<FavoritesEvent>() {
 
   private val favoriteItems = MutableStateFlow<List<ChannelUiItem>>(emptyList())
   private val isLoading = MutableStateFlow(true)
@@ -98,7 +93,7 @@ class FavoritesViewModel(
     link: String,
     isFavorite: Boolean,
   ) = viewModelScope.launch {
-    if (toggleFavoriteChannel(link, isFavorite).not()) {
+    if (!toggleFavoriteChannel(link, isFavorite)) {
       val failedToggleFavoriteMessage =
         dictionary.getString(R.string.favorites_screen_failed_toggle_favorite_channel_error_message)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(failedToggleFavoriteMessage))
@@ -109,7 +104,7 @@ class FavoritesViewModel(
     link: String,
     isSubscribed: Boolean,
   ) = viewModelScope.launch {
-    if (isNotificationPermissionGranted().not()) {
+    if (!isNotificationPermissionGranted()) {
       _viewEffect.send(
         HomeViewEffect.ErrorOccurred(
           errorMessage = dictionary.getString(R.string.favorites_screen_notification_error_message),
@@ -118,7 +113,7 @@ class FavoritesViewModel(
       return@launch
     }
 
-    if (toggleSubscribedChannel(link, isSubscribed).not()) {
+    if (!toggleSubscribedChannel(link, isSubscribed)) {
       val failedToggleSubscribedMessage =
         dictionary.getString(R.string.favorites_screen_failed_toggle_subscribed_channel_error_message)
       _viewEffect.send(HomeViewEffect.ErrorOccurred(failedToggleSubscribedMessage))
